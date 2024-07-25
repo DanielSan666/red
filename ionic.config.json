@@ -1,0 +1,8 @@
+{
+  "name": "RedSocial",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "0d865b1f"
+}
