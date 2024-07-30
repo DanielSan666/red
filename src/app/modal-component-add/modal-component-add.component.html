@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Agregar una publicacion</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Crear</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-fab  horizontal="center">
+      <ion-fab-button (click)="addPhotoToGallery()">
+        Agregar imagen
+      </ion-fab-button>
+    </ion-fab>
+    <ion-input label="Titulo"
+     labelPlacement="stacked" 
+     type="text" 
+     placeholder="Titulo" 
+     [(ngModel)]="post.titulo"></ion-input>
+    <ion-input
+    label="Detalles"
+    labelPlacement="stacked"
+    type="text"
+    placeholder="Detalles"
+    [(ngModel)]="post.detalles"
+  ></ion-input>
+  <ion-input
+  label="Contenido"
+  labelPlacement="stacked"
+  type="text"
+  placeholder="Contenido"
+  [(ngModel)]="post.contenido"
+></ion-input>
+  </ion-item>
+</ion-content>

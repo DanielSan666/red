@@ -3,7 +3,10 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { Platform } from '@ionic/angular';
-import { Capacitor } from '@capacitor/core'; // Importar Capacitor para usar Capacitor.convertFileSrc
+import { Capacitor } from '@capacitor/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { finalize } from 'rxjs/operators'; // Importar Capacitor para usar Capacitor.convertFileSrc
 
 export interface UserPhoto {
   filepath: string;
@@ -18,7 +21,8 @@ export class PhotoService {
   public photos: UserPhoto[] = [];
   private platform: Platform;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform,  private storage: AngularFireStorage,
+    private firestore: AngularFirestore) {
     this.platform = platform;
   }
 
@@ -114,4 +118,26 @@ export class PhotoService {
       value: JSON.stringify(this.photos),
     });
   }
+  // Método para subir una foto a Firebase Storage
+  private async uploadPhotoToFirebase(photo: UserPhoto): Promise<string> {
+    const filePath = `photos/${photo.filepath}`;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, photo.webviewPath);
+
+    return new Promise<string>((resolve, reject) => {
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+            resolve(url);
+          }, reject);
+        })
+      ).subscribe();
+    });
+  }
+
+  // Método para guardar la URL de la foto en Firestore
+  private async savePhotoUrlToFirestore(photoUrl: string) {
+    await this.firestore.collection('photos').add({ url: photoUrl });
+  }
+
 }
