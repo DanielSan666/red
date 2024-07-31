@@ -10,9 +10,10 @@ import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import { FormsModule } from '@angular/forms';
+import { ModalComponentComponent } from './modal-component/modal-component.component';
 
 @NgModule({
-  declarations: [AppComponent, ModalComponentAddComponent],
+  declarations: [AppComponent, ModalComponentAddComponent,ModalComponentComponent],
   imports: [FormsModule ,BrowserModule, IonicModule.forRoot(), AppRoutingModule, AngularFireModule.initializeApp(environment.FIREBASE_CONFIG),AngularFireAuthModule, AngularFirestoreModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

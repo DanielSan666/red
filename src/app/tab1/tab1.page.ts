@@ -52,6 +52,13 @@ export class Tab1Page {
   async ngOnInit() {
     await this.photoService.loadSaved();
   }
+  get latestPhoto() {
+    const photos = this.photoService.photos;
+    return photos.length > 0 ? photos[photos.length - 1] : null;
+  }
+  addPhotoToGallery() {
+    this.photoService.addNewToGallery();
+  }
   ionViewWillEnter() {
     this.getPosts();
   }
@@ -105,26 +112,26 @@ export class Tab1Page {
     }).then(toastData => toastData.present());
   }
 
-  async presentActionSheet(postId: string) {
+  async presentActionSheet(id: string) {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Acciones',
       buttons: this.actionSheetButtons.map(button => ({
         ...button,
         handler: () => {
-          this.handleAction(button.data.action, postId);
+          this.handleAction(button.data.action, id);
         }
       }))
     });
     await actionSheet.present();
   }
 
-  async handleAction(action: string, postId: string) {
+  async handleAction(action: string, id: string) {
     switch (action) {
       case 'delete':
-        this.deletePost(postId);
+        this.deletePost(id);
         break;
       case 'edit':
-        await this.openEditModal(postId);
+        await this.openEditModal(id);
         break;
       case 'cancel':
         break;
@@ -133,12 +140,12 @@ export class Tab1Page {
     }
   }
 
-  async openEditModal(postId: string) {
+  async openEditModal(id: string) {
     const modal = await this.modalCtrl.create({
       component: ModalComponentComponent,
-      componentProps: { data: { postId } }
+      componentProps: { data: { id } }
     });
-    await modal.present();
+    return await modal.present();
 
     const { data } = await modal.onDidDismiss();
     if (data) {
@@ -159,7 +166,5 @@ export class Tab1Page {
     }
   }
 
-  addPhotoToGallery() {
-    this.photoService.addNewToGallery();
-  }
+
 }
