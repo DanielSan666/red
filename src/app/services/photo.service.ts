@@ -6,7 +6,7 @@ import { Platform } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { finalize } from 'rxjs/operators'; // Importar Capacitor para usar Capacitor.convertFileSrc
+import { finalize } from 'rxjs/operators';
 
 export interface UserPhoto {
   filepath: string;
@@ -21,62 +21,49 @@ export class PhotoService {
   public photos: UserPhoto[] = [];
   private platform: Platform;
 
-  constructor(platform: Platform,  private storage: AngularFireStorage,
+  constructor(platform: Platform, private storage: AngularFireStorage,
     private firestore: AngularFirestore) {
     this.platform = platform;
   }
 
-  // Método para cargar fotos guardadas
   public async loadSaved() {
     const { value } = await Preferences.get({ key: this.PHOTO_STORAGE });
     this.photos = (value ? JSON.parse(value) : []) as UserPhoto[];
 
     if (!this.platform.is('hybrid')) {
-      // Display the photo by reading into base64 format
       for (let photo of this.photos) {
-        // Read each saved photo's data from the Filesystem
         const readFile = await Filesystem.readFile({
-            path: photo.filepath,
-            directory: Directory.Data
+          path: photo.filepath,
+          directory: Directory.Data
         });
-
-        // Web platform only: Load the photo as base64 data
         photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
       }
     }
   }
 
-  // Método para leer una foto como base64
   private async readAsBase64(photo: Photo) {
-    // "hybrid" will detect Cordova or Capacitor
     if (this.platform.is('hybrid')) {
-      // Read the file into base64 format
       const file = await Filesystem.readFile({
         path: photo.path!
       });
-
       return file.data;
     } else {
-      // Fetch the photo, read as a blob, then convert to base64 format
       const response = await fetch(photo.webPath!);
       const blob = await response.blob();
-
       return await this.convertBlobToBase64(blob) as string;
     }
   }
 
-  // Método para convertir un Blob a base64
   private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onerror = reject;
     reader.onload = () => {
-        resolve(reader.result);
+      resolve(reader.result);
     };
     reader.readAsDataURL(blob);
   });
 
-  // Método para guardar una foto
-  private async savePicture(photo: Photo) {
+  private async savePicture(photo: Photo): Promise<UserPhoto> {
     const base64Data = await this.readAsBase64(photo);
     const fileName = Date.now() + '.jpeg';
     const savedFile = await Filesystem.writeFile({
@@ -86,15 +73,11 @@ export class PhotoService {
     });
 
     if (this.platform.is('hybrid')) {
-      // Display the new image by rewriting the 'file://' path to HTTP
-      // Details: https://ionicframework.com/docs/building/webview#file-protocol
       return {
         filepath: savedFile.uri,
         webviewPath: Capacitor.convertFileSrc(savedFile.uri),
       };
     } else {
-      // Use webPath to display the new image instead of base64 since it's
-      // already loaded into memory
       return {
         filepath: fileName,
         webviewPath: photo.webPath
@@ -102,7 +85,6 @@ export class PhotoService {
     }
   }
 
-  // Método para añadir una nueva foto a la galería
   public async addNewToGallery() {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
@@ -117,12 +99,17 @@ export class PhotoService {
       key: this.PHOTO_STORAGE,
       value: JSON.stringify(this.photos),
     });
+
+    const photoUrl = await this.uploadPhotoToFirebase(savedImageFile);
+    await this.savePhotoUrlToFirestore(photoUrl);
   }
-  // Método para subir una foto a Firebase Storage
+
   private async uploadPhotoToFirebase(photo: UserPhoto): Promise<string> {
+    const response = await fetch(photo.webviewPath!);
+    const blob = await response.blob();
     const filePath = `photos/${photo.filepath}`;
     const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, photo.webviewPath);
+    const task = this.storage.upload(filePath, blob);
 
     return new Promise<string>((resolve, reject) => {
       task.snapshotChanges().pipe(
@@ -135,9 +122,7 @@ export class PhotoService {
     });
   }
 
-  // Método para guardar la URL de la foto en Firestore
   private async savePhotoUrlToFirestore(photoUrl: string) {
     await this.firestore.collection('photos').add({ url: photoUrl });
   }
-
 }

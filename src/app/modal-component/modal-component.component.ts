@@ -1,21 +1,21 @@
-import { Component, ViewChild,Input } from '@angular/core';
+import { Component, ViewChild,Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { Post } from '../models/post.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DataService } from '../services/data.service';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-modal-component',
   templateUrl: './modal-component.component.html',
   styleUrls: ['./modal-component.component.scss'],
 })
-export class ModalComponentComponent{
-  post={} as Post;
-  id: any;
-
-  @Input() data: any;
+export class ModalComponentComponent implements OnInit {
+  post: Post = { titulo: '', detalles: '', contenido: '' ,url: ''};
+  public id!: any;
 
   constructor(
     private modalCtrl: ModalController,
@@ -24,73 +24,65 @@ export class ModalComponentComponent{
     private navCtrl: NavController,
     private afStore: AngularFirestore,
     private actRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dataService : DataService,
+    private navParams:  NavParams
   ) {
-    this.id = this.actRoute.snapshot.paramMap.get("id");
-  }
-  ngOnInit(){
-    this.getPostById(this.id);
-  }
-  async getPostById(id: string) {
-    let loader = await this.loadingCtrl.create({
-      message: "Espera un momento......."
-    });
-    await loader.present();
-  
-    this.afStore
-      .doc("posts/" + id)
-      .valueChanges()
-      .subscribe((data: any) => {
-        if (data) {
-          const { titulo, contenido, detalles } = data as { titulo: string, contenido: string, detalles: string };
-          this.post.titulo = titulo;
-          this.post.contenido = contenido;
-          this.post.detalles = detalles;
-        } else {
-          console.error("No se encontraron datos para el ID proporcionado.");
-        }
-        loader.dismiss();
-      }, (error) => {
-        console.error("Error al obtener los datos:", error);
-        loader.dismiss();
-      });
-  }
-  async confirm(post:Post){
-    let loader = await this.loadingCtrl.create({
-      message:"Actualizando"
-    });
-    await loader.present();
-
-    this.afStore
-    .doc("posts/"+this.id)
-    .update(post)
-    .then(()=>{
-      console.log("Elemento actualizado correctamente");
-      this.router.navigate(['/home'])
-      loader.dismiss();
-    })
-    .catch((error)=>{
-      console.error("Error al actualizar el elemento", error);
-      loader.dismiss();
-    });
     
   }
-  formValidation() {
-    if (!this.post.titulo) {
-      this.showToast("Ingrese un título");
-      return false;
+  ngOnInit(): void {
+    // Obtener ID desde el parámetro de la ruta
+    this.id = this.actRoute.snapshot.paramMap.get('id');
+    console.log('ID from route:', this.id);
+
+    // Si no hay ID en la ruta, obtenerlo de NavParams
+    if (!this.id) {
+      const data = this.navParams.get('data');
+      if (data && data.id) {
+        this.id = data.id;
+        console.log('ID from NavParams:', this.id);
+      } else {
+        console.error('No ID found in NavParams');
+        return; // Salir si no hay ID disponible
+      }
     }
-    if (!this.post.detalles) {
-      this.showToast("Ingrese detalles");
-      return false;
+
+    // Suscribirse al servicio de datos si hay un ID
+    if (this.id) {
+      this.dataService.getPosts().subscribe({
+        next: data => {
+          const postData = data.find(p => p.payload.doc.id === this.id);
+          if (postData) {
+            this.post = postData.payload.doc.data() as Post;
+          } else {
+            console.warn('Post not found for ID:', this.id);
+          }
+        },
+        error: err => {
+          console.error('Error fetching posts:', err);
+        }
+      });
     }
-    if (!this.post.contenido) {
-      this.showToast("Ingrese el contenido");
-      return false;
-    }
-    return true;
   }
 
+ async updatePost() {
+    let loader = await this.loadingCtrl.create({
+      message: "Espere por favor..."
+    });
+    await loader.present();
+    try{
+    this.dataService.updatePost(this.id, this.post).then(() => {
+    loader.dismiss();
+    this.modalCtrl.dismiss(this.post, 'updatePost');
+
+    });
+    }catch (e: any) {
+      await loader.dismiss();
+      let errorMessage = e.message || e.getLocalizedMessage();
+      this.showToast(errorMessage);
+    }
+  }
+  
   showToast(message: string) {
     this.toastCtrl.create({
       message: message,
