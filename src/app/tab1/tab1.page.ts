@@ -4,7 +4,6 @@ import { add } from 'ionicons/icons';
 import { ModalComponentAddComponent } from '../modal-component-add/modal-component-add.component';
 import { ModalComponentComponent } from '../modal-component/modal-component.component';
 import { ActionSheetController, NavController,ModalController } from '@ionic/angular';
-import { PhotoService } from '../services/photo.service';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 @Component({
@@ -39,7 +38,6 @@ export class Tab1Page {
   ];
 
   constructor(
-    public photoService: PhotoService,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private afStore: AngularFirestore,
@@ -48,16 +46,6 @@ export class Tab1Page {
   ) {
     
     addIcons({ add });
-  }
-  async ngOnInit() {
-    await this.photoService.loadSaved();
-  }
-  get latestPhoto() {
-    const photos = this.photoService.photos;
-    return photos.length > 0 ? photos[photos.length - 1] : null;
-  }
-  addPhotoToGallery() {
-    this.photoService.addNewToGallery();
   }
   ionViewWillEnter() {
     this.getPosts();
@@ -77,7 +65,8 @@ export class Tab1Page {
               id: e.payload.doc.id,
               titulo: e.payload.doc.data()["titulo"],
               contenido: e.payload.doc.data()["contenido"],
-              detalles: e.payload.doc.data()["detalles"]
+              detalles: e.payload.doc.data()["detalles"],
+              imageUrl: e.payload.doc.data()["imageUrl"]
             }
           });
         });

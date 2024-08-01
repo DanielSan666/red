@@ -5,7 +5,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { Post } from '../models/post.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService } from '../services/data.service';
+import { DataService } from '../services/publicacion/data.service';
 import { NavParams } from '@ionic/angular';
 
 @Component({
@@ -14,7 +14,7 @@ import { NavParams } from '@ionic/angular';
   styleUrls: ['./modal-component.component.scss'],
 })
 export class ModalComponentComponent implements OnInit {
-  post: Post = { titulo: '', detalles: '', contenido: '' ,url: ''};
+  post: Post = { titulo: '', detalles: '', contenido: '',imageUrl:''};
   public id!: any;
 
   constructor(

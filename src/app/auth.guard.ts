@@ -11,7 +11,10 @@ import { map, take } from 'rxjs/operators';
 export class AuthGuard implements CanActivate {
 
   constructor(private afAuth: AngularFireAuth, private router: Router) {}
-
+  async logout() {
+    await this.afAuth.signOut();
+    this.router.navigate(['/login']);
+  }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

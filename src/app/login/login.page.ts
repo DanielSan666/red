@@ -3,7 +3,7 @@ import { User } from '../models/user.model';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { UserService } from '../services/perfil.service';
+import { UserService } from '../services/perfil/perfil.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',

@@ -2,9 +2,9 @@ import { Component, OnInit} from '@angular/core';
 import { ModalEditPerfilComponent } from '../modal-edit-perfil/modal-edit-perfil.component';
 import { ActionSheetController, NavController,ModalController } from '@ionic/angular';
 import { LoadingController, ToastController } from '@ionic/angular';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { UserService } from '../services/perfil.service';
+import { UserService } from '../services/perfil/perfil.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-tab3',
@@ -43,8 +43,12 @@ export class Tab3Page implements OnInit {
     private loadingCtrl: LoadingController,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private authService: AuthService
   ) {}
+  logout() {
+    this.authService.logout();
+  }
 
   async ngOnInit() {
     await this.loadUserData();

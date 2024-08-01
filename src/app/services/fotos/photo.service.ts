@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo as CapacitorPhoto } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { Platform } from '@ionic/angular';
@@ -11,6 +11,13 @@ import { finalize } from 'rxjs/operators';
 export interface UserPhoto {
   filepath: string;
   webviewPath?: string;
+}
+
+export interface Photo {
+  url: string;
+  description?: string;
+  dateTaken: Date;
+  userId?: string;
 }
 
 @Injectable({
@@ -41,7 +48,7 @@ export class PhotoService {
     }
   }
 
-  private async readAsBase64(photo: Photo) {
+  private async readAsBase64(photo: CapacitorPhoto) {
     if (this.platform.is('hybrid')) {
       const file = await Filesystem.readFile({
         path: photo.path!
@@ -63,7 +70,7 @@ export class PhotoService {
     reader.readAsDataURL(blob);
   });
 
-  private async savePicture(photo: Photo): Promise<UserPhoto> {
+  private async savePicture(photo: CapacitorPhoto): Promise<UserPhoto> {
     const base64Data = await this.readAsBase64(photo);
     const fileName = Date.now() + '.jpeg';
     const savedFile = await Filesystem.writeFile({
@@ -101,7 +108,14 @@ export class PhotoService {
     });
 
     const photoUrl = await this.uploadPhotoToFirebase(savedImageFile);
-    await this.savePhotoUrlToFirestore(photoUrl);
+    const photo: Photo = {
+      url: photoUrl,
+      description: 'Photo taken on ' + new Date().toLocaleString(),
+      dateTaken: new Date(),
+      // userId: 'your-user-id' // Add this if you have a user ID
+    };
+
+    await this.savePhotoToFirestore(photo);
   }
 
   private async uploadPhotoToFirebase(photo: UserPhoto): Promise<string> {
@@ -122,7 +136,7 @@ export class PhotoService {
     });
   }
 
-  private async savePhotoUrlToFirestore(photoUrl: string) {
-    await this.firestore.collection('photos').add({ url: photoUrl });
+  private async savePhotoToFirestore(photo: Photo) {
+    await this.firestore.collection('photos').add(photo);
   }
 }

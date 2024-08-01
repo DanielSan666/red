@@ -1,13 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
-import { NavController } from '@ionic/angular';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { OverlayEventDetail } from '@ionic/core/components';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { Post } from '../models/post.model';
-import { PhotoService } from '../services/photo.service';
+import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-modal-component-add',
   templateUrl: './modal-component-add.component.html',
@@ -15,15 +12,27 @@ import { PhotoService } from '../services/photo.service';
 })
 export class ModalComponentAddComponent {
   post = {} as Post;
+  imageUrl: string = '';
+  file: File | null = null;
 
   constructor(
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    private navCtrl: NavController,
     private afStore: AngularFirestore,
-    public photoService: PhotoService
+    private afStorage: AngularFireStorage
   ) {}
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = e => this.imageUrl = reader.result as string;
+      reader.readAsDataURL(this.file);
+    }
+  }
+
   async confirm() {
     if (this.formValidation()) {
       let loader = await this.loadingCtrl.create({
@@ -32,14 +41,28 @@ export class ModalComponentAddComponent {
       await loader.present();
 
       try {
-        await this.afStore.collection('posts').add(this.post);
-        loader.dismiss();
-        this.modalCtrl.dismiss(this.post, 'confirm');
+        if (this.file) {
+          const filePath = `images/${Date.now()}_${this.file.name}`;
+          const fileRef = this.afStorage.ref(filePath);
+          const task = this.afStorage.upload(filePath, this.file);
+
+          task.snapshotChanges().pipe(
+            finalize(async () => {
+              const url = await fileRef.getDownloadURL().toPromise();
+              this.post.imageUrl = url;
+              await this.savePost();
+              loader.dismiss();
+              this.modalCtrl.dismiss(this.post, 'confirm');
+            })
+          ).subscribe();
+        } else {
+          await this.savePost();
+          loader.dismiss();
+          this.modalCtrl.dismiss(this.post, 'confirm');
+        }
       } catch (e: any) {
         loader.dismiss();
-        e.message = "Mensaje de error en el post";
-        let errorMessage = e.message || e.getLocalizedMessage();
-        this.showToast(errorMessage);
+        this.showToast("Mensaje de error en el post");
       }
     }
   }
@@ -60,22 +83,22 @@ export class ModalComponentAddComponent {
     return true;
   }
 
+  async savePost() {
+    try {
+      await this.afStore.collection('posts').add(this.post);
+    } catch (e: any) {
+      throw new Error("Error guardando el post");
+    }
+  }
+
   showToast(message: string) {
     this.toastCtrl.create({
       message: message,
       duration: 4000
     }).then(toastData => toastData.present());
   }
+
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
-  async ngOnInit() {
-    await this.photoService.loadSaved();
-  }
-  
-
-  addPhotoToGallery() {
-    this.photoService.addNewToGallery();
-  }
-  
 }
