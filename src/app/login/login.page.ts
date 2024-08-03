@@ -3,6 +3,7 @@ import { User } from '../models/user.model';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Subscription } from 'rxjs';
 import { UserService } from '../services/perfil/perfil.service';
 @Component({
   selector: 'app-login',
@@ -12,6 +13,8 @@ import { UserService } from '../services/perfil/perfil.service';
 export class LoginPage implements OnInit {
   user = {} as User;
   currentUser: any;
+  userSubscription: Subscription | undefined;
+
 
 
   constructor(
@@ -41,17 +44,23 @@ export class LoginPage implements OnInit {
 
         if (uid) {
           // Obtener datos del usuario usando el servicio
-          this.userService.getUser(uid).subscribe(userDoc => {
+          this.userSubscription = this.userService.getUser(uid).subscribe(userDoc => {
             if (userDoc.payload.exists) {
               this.currentUser = userDoc.payload.data();
               console.log(this.currentUser);
+              this.navCtrl.navigateRoot("tabs"); // Navegar solo si el usuario existe
+            } else {
+              this.showToast("Su perfil ha sido eliminado. No puede iniciar sesión.");
+              this.afAuth.signOut(); // Cerrar sesión si el perfil ha sido eliminado
+              if (this.userSubscription) {
+                this.userSubscription.unsubscribe(); // Desuscribir del observable
+              }
             }
           });
+        } else {
+          this.showToast("Error al obtener los datos del usuario.");
         }
-
-        this.navCtrl.navigateRoot("tabs");
       } catch (error: any) {
-        error.message = "Error al iniciar sesión";
         let errorMessage = error.message || error.getLocalizedMessage();
         this.showToast(errorMessage);
       }

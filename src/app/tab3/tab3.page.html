@@ -7,8 +7,8 @@
 </ion-header>
 <ion-content>
   <ion-card *ngIf="currentUser">
-    <ion-button (click)="presentActionSheet(currentUser.id)">
-      <ion-icon aria-hidden="true" name="ellipsis-vertical-outline"></ion-icon>
+    <ion-button (click)="presentActionSheet(currentUser.uid)">
+      <ion-icon inert aria-hidden="true" name="ellipsis-vertical-outline"></ion-icon>
     </ion-button>   
     <ion-button (click)="logout()">Cerrar Sesión</ion-button>
     <ion-card-header>

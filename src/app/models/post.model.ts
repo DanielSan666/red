@@ -3,4 +3,5 @@ export interface Post{
     detalles: string;
     contenido:string;
     imageUrl: string;
+    userId:string,
 }

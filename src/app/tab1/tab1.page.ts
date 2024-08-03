@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { UserService } from '../services/perfil/perfil.service';
+import { AuthService } from '../services/auth/auth.service';
 import { ModalComponentAddComponent } from '../modal-component-add/modal-component-add.component';
 import { ModalComponentComponent } from '../modal-component/modal-component.component';
 import { ActionSheetController, NavController,ModalController } from '@ionic/angular';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { DataService } from '../services/publicacion/data.service';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -13,7 +17,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class Tab1Page {
   posts: any;
-
+  currentUser: any;
+  users: { [key: string]: any } = {}; 
   public actionSheetButtons = [
     {
       text: 'Eliminar',
@@ -42,7 +47,10 @@ export class Tab1Page {
     private loadingCtrl: LoadingController,
     private afStore: AngularFirestore,
     private actionSheetCtrl: ActionSheetController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private dataService: DataService,
+    private userService: UserService,
+    private afAuth: AngularFireAuth,
   ) {
     
     addIcons({ add });
@@ -50,6 +58,20 @@ export class Tab1Page {
   ionViewWillEnter() {
     this.getPosts();
   }
+  async ngOnInit() {
+    this.afAuth.authState.subscribe(user => {
+      this.currentUser = user;
+    });
+  }
+  loadUsersForPosts(posts: any[]) {
+    const userIds = [...new Set(posts.map(post => post.userId))]; // Obtener IDs únicos
+    userIds.forEach(userId => {
+      this.dataService.getUserById(userId).subscribe(user => {
+        this.users[userId] = user;
+      });
+    });
+  }
+
 
   async getPosts() {
     let loader = await this.loadingCtrl.create({
@@ -61,14 +83,17 @@ export class Tab1Page {
         .snapshotChanges()
         .subscribe((data: any[]) => {
           this.posts = data.map((e: any) => {
+            const postData = e.payload.doc.data();
             return {
               id: e.payload.doc.id,
-              titulo: e.payload.doc.data()["titulo"],
-              contenido: e.payload.doc.data()["contenido"],
-              detalles: e.payload.doc.data()["detalles"],
-              imageUrl: e.payload.doc.data()["imageUrl"]
-            }
+              titulo: postData.titulo,
+              contenido: postData.contenido,
+              detalles: postData.detalles,
+              imageUrl: postData.imageUrl,
+              userId: postData.userId
+            };
           });
+          this.loadUsersForPosts(this.posts);
         });
 
       await loader.dismiss();
@@ -78,7 +103,6 @@ export class Tab1Page {
       this.showToast(errorMessage);
     }
   }
-
   async deletePost(id: string) {
     let loader = await this.loadingCtrl.create({
       message: "Espere por favor..."
@@ -127,6 +151,10 @@ export class Tab1Page {
       default:
         break;
     }
+  }
+  isPostOwner(postId: string): boolean {
+    const post = this.posts.find((p: any) => p.id === postId);
+    return post && this.currentUser && post.userId === this.currentUser.uid;
   }
 
   async openEditModal(id: string) {

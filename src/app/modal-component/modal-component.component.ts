@@ -14,8 +14,9 @@ import { NavParams } from '@ionic/angular';
   styleUrls: ['./modal-component.component.scss'],
 })
 export class ModalComponentComponent implements OnInit {
-  post: Post = { titulo: '', detalles: '', contenido: '',imageUrl:''};
+  post: Post = { titulo: '', detalles: '', contenido: '',imageUrl:'', userId: '' };
   public id!: any;
+  
 
   constructor(
     private modalCtrl: ModalController,

@@ -32,6 +32,7 @@
     "@capacitor/keyboard": "6.0.1",
     "@capacitor/preferences": "^6.0.1",
     "@capacitor/status-bar": "6.0.0",
+    "@firebase/auth": "^1.7.6",
     "@ionic/angular": "^8.0.0",
     "@ionic/pwa-elements": "^3.3.0",
     "firebase": "github:angular/fire",

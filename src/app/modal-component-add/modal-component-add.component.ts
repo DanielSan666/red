@@ -5,6 +5,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { Post } from '../models/post.model';
 import { finalize } from 'rxjs/operators';
+import { getAuth } from '@firebase/auth';
 @Component({
   selector: 'app-modal-component-add',
   templateUrl: './modal-component-add.component.html',
@@ -41,28 +42,37 @@ export class ModalComponentAddComponent {
       await loader.present();
 
       try {
-        if (this.file) {
-          const filePath = `images/${Date.now()}_${this.file.name}`;
-          const fileRef = this.afStorage.ref(filePath);
-          const task = this.afStorage.upload(filePath, this.file);
+        // Obtener el userId del usuario actual
+        const auth = getAuth();
+        const userId = auth.currentUser?.uid;
+        if (userId) {
+          this.post.userId = userId; // Establece el userId en el post
 
-          task.snapshotChanges().pipe(
-            finalize(async () => {
-              const url = await fileRef.getDownloadURL().toPromise();
-              this.post.imageUrl = url;
-              await this.savePost();
-              loader.dismiss();
-              this.modalCtrl.dismiss(this.post, 'confirm');
-            })
-          ).subscribe();
+          if (this.file) {
+            const filePath = `images/${Date.now()}_${this.file.name}`;
+            const fileRef = this.afStorage.ref(filePath);
+            const task = this.afStorage.upload(filePath, this.file);
+
+            task.snapshotChanges().pipe(
+              finalize(async () => {
+                const url = await fileRef.getDownloadURL().toPromise();
+                this.post.imageUrl = url;
+                await this.savePost();
+                loader.dismiss();
+                this.modalCtrl.dismiss(this.post, 'confirm');
+              })
+            ).subscribe();
+          } else {
+            await this.savePost();
+            loader.dismiss();
+            this.modalCtrl.dismiss(this.post, 'confirm');
+          }
         } else {
-          await this.savePost();
-          loader.dismiss();
-          this.modalCtrl.dismiss(this.post, 'confirm');
+          this.showToast("Error: Usuario no autenticado");
         }
       } catch (e: any) {
         loader.dismiss();
-        this.showToast("Mensaje de error en el post");
+        this.showToast("Error en el post");
       }
     }
   }
