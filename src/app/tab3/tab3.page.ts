@@ -1,11 +1,14 @@
 import { Component, OnInit} from '@angular/core';
-import { ModalEditPerfilComponent } from '../modal-edit-perfil/modal-edit-perfil.component';
 import { ActionSheetController, NavController,ModalController } from '@ionic/angular';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { UserService } from '../services/perfil/perfil.service';
 import { AuthService } from '../services/auth/auth.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { ModalEditNombreComponent } from '../modal-edit/modal-edit-nombre/modal-edit-nombre.component';
+import { ModalEditTelefonoComponent } from '../modal-edit/modal-edit-telefono/modal-edit-telefono.component';
+import { ModalEditPasComponent } from '../modal-edit/modal-edit-pas/modal-edit-pas.component';
+import { ModalEditCorreoComponent } from '../modal-edit/modal-edit-correo/modal-edit-correo.component';
 @Component({
   selector: 'app-tab3',
   templateUrl: './tab3.page.html',
@@ -99,9 +102,78 @@ export class Tab3Page implements OnInit {
       this.showToast(errorMessage);
     }
   }
+  async editName(uid: string){
+    const modal = await this.modalCtrl.create({
+      component: ModalEditNombreComponent,
+      componentProps: { data: { uid } }
+    });
+    console.log("UID en openEditModal:", uid); // Aquí se imprime el UID
+    return await modal.present();
+  }
+//////Abrir modal para modificar nommbre 
+  async openModalName() {
+    const modal = await this.modalCtrl.create({
+      component:  ModalEditNombreComponent,
+      componentProps: {
+      }
+    });
+    return await modal.present();
 
+//////Abrir modal para modificar telefono
+  }
+  async editPhone(uid: string){
+    const modal = await this.modalCtrl.create({
+      component: ModalEditTelefonoComponent,
+      componentProps: { data: { uid } }
+    });
+    console.log("UID en openEditModal:", uid); // Aquí se imprime el UID
+    return await modal.present();
+  }
 
-  
+  async openModalPhone() {
+    const modal = await this.modalCtrl.create({
+      component:  ModalEditTelefonoComponent,
+      componentProps: {
+      }
+    });
+    return await modal.present();
+
+  }
+  async editEmail(uid: string){
+    const modal = await this.modalCtrl.create({
+      component: ModalEditCorreoComponent,
+      componentProps: { data: { uid } }
+    });
+    console.log("UID en openEditModal:", uid); // Aquí se imprime el UID
+    return await modal.present();
+  }
+//////Abrir modal para modificar correo
+  async openModalEmail() {
+    const modal = await this.modalCtrl.create({
+      component:  ModalEditCorreoComponent,
+      componentProps: {
+      }
+    });
+    return await modal.present();
+  }
+
+  async editPassword(uid: string){
+    const modal = await this.modalCtrl.create({
+      component: ModalEditPasComponent,
+      componentProps: { data: { uid } }
+    });
+    console.log("UID en openEditModal:", uid); // Aquí se imprime el UID
+    return await modal.present();
+  }
+//////Abrir modal para modificar contraseña
+  async openModalPassword() {
+    const modal = await this.modalCtrl.create({
+      component:  ModalEditPasComponent,
+      componentProps: {
+      }
+    });
+    return await modal.present();
+  }
   async presentActionSheet(uid: string) {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Acciones',
@@ -110,12 +182,6 @@ export class Tab3Page implements OnInit {
           text: 'Eliminar',
           handler: () => {
             this.handleAction('delete', uid);
-          }
-        },
-        {
-          text: 'Editar',
-          handler: () => {
-            this.handleAction('edit', uid);
           }
         },
         {
@@ -134,33 +200,11 @@ export class Tab3Page implements OnInit {
       case 'delete':
         this.deleteUser(uid);
         break;
-      case 'edit':
-        await this.openEditModal(uid);
-        break;
       case 'cancel':
         break;
       default:
         break;
     }
-  }
-
-  async openEditModal(uid: string) {
-    const modal = await this.modalCtrl.create({
-      component: ModalEditPerfilComponent,
-      componentProps: { data: { uid } }
-    });
-    console.log("UID en openEditModal:", uid); // Aquí se imprime el UID
-    return await modal.present();
-  }
-
-  async openModal() {
-    const modal = await this.modalCtrl.create({
-      component:  ModalEditPerfilComponent,
-      componentProps: {
-      }
-    });
-    return await modal.present();
-
   }
   showToast(message: string) {
     this.toastCtrl.create({

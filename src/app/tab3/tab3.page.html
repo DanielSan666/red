@@ -23,6 +23,11 @@
       {{currentUser.correo}}
     </ion-card-content>
   </ion-card>
+  <ion-content  *ngIf="currentUser" >
+    <ion-title>Actualizar informacion</ion-title>
+    <ion-button expand="full"  (click)="editName(currentUser.uid)">Nombre</ion-button>
+    <ion-button expand="full"  (click)="editPhone(currentUser.uid)">Telefono</ion-button>
+  </ion-content>
 </ion-content>
 
 

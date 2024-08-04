@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Editar nombre</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="updateName(currentUser.uid , user.nombre)" [strong]="true">Actualizar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="user" >
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input 
+      type="text" 
+      placeholder="Nombre" 
+      [(ngModel)]="user.nombre">
+    </ion-input>
+  </ion-item>
+</ion-content>

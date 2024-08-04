@@ -21,8 +21,8 @@ export class UserService {
   }
   
 
-  updateUser(id: string, user: User){
-    return this.usersCollection.doc(id).update(user);
+  updateUser(uid: string, data: Partial<User>) {
+    return this.firestore.collection('users').doc(uid).update(data);
   }
 
  deleteUser(id: string) {

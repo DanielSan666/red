@@ -61,9 +61,17 @@ export class LoginPage implements OnInit {
           this.showToast("Error al obtener los datos del usuario.");
         }
       } catch (error: any) {
+        if (error.code === 'auth/wrong-password') {
+          this.showToast("La contraseña es incorrecta.");
+        } else if (error.code === 'auth/user-not-found') {
+          this.showToast("El usuario no existe.");
+        } else {
+          this.showToast("Error al iniciar sesión: " + error.message);
+        }
         let errorMessage = error.message || error.getLocalizedMessage();
         this.showToast(errorMessage);
       }
+      console.error("Error al iniciar sesión:");
       await loader.dismiss();
     }
   }
