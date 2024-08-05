@@ -18,7 +18,13 @@ import { ModalEditCorreoComponent } from './modal-edit/modal-edit-correo/modal-e
 import { ModalEditPasComponent } from './modal-edit/modal-edit-pas/modal-edit-pas.component';
 @NgModule({
   declarations: [AppComponent, ModalComponentAddComponent,ModalComponentComponent, ModalEditPerfilComponent, ModalEditNombreComponent,  ModalEditTelefonoComponent, ModalEditCorreoComponent,  ModalEditPasComponent],
-  imports: [FormsModule ,BrowserModule, IonicModule.forRoot(), AppRoutingModule, AngularFireModule.initializeApp(environment.FIREBASE_CONFIG),AngularFireAuthModule, AngularFirestoreModule],
+  imports: [FormsModule ,
+    BrowserModule, 
+    IonicModule.forRoot(), 
+    AppRoutingModule, 
+    AngularFireModule.initializeApp(environment.FIREBASE_CONFIG)
+    ,AngularFireAuthModule, 
+    AngularFirestoreModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
   
