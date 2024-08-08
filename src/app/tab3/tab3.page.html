@@ -1,15 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Perfil
-    </ion-title>
+    <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
   <ion-card *ngIf="currentUser">
     <ion-button (click)="presentActionSheet(currentUser.uid)">
       <ion-icon inert aria-hidden="true" name="ellipsis-vertical-outline"></ion-icon>
-    </ion-button>   
+    </ion-button>
     <ion-button (click)="logout()">Cerrar Sesión</ion-button>
     <ion-card-header>
       <ion-avatar>
@@ -23,11 +22,14 @@
       {{currentUser.correo}}
     </ion-card-content>
   </ion-card>
-  <ion-content  *ngIf="currentUser" >
-    <ion-title>Actualizar informacion</ion-title>
-    <ion-button expand="full"  (click)="editName(currentUser.uid)">Nombre</ion-button>
-    <ion-button expand="full"  (click)="editPhone(currentUser.uid)">Telefono</ion-button>
-  </ion-content>
+
+  <ion-card *ngIf="currentUser">
+    <ion-card-header>
+      <ion-title>Actualizar información</ion-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="full" (click)="editName(currentUser.uid)">Nombre</ion-button>
+      <ion-button expand="full" (click)="editPhone(currentUser.uid)">Teléfono</ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
-
-

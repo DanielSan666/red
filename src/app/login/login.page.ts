@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
-import { LoadingController, NavController, ToastController } from '@ionic/angular';
+import {
+  LoadingController,
+  NavController,
+  ToastController,
+} from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Subscription } from 'rxjs';
 import { UserService } from '../services/perfil/perfil.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -15,8 +20,6 @@ export class LoginPage implements OnInit {
   currentUser: any;
   userSubscription: Subscription | undefined;
 
-
-
   constructor(
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
@@ -24,75 +27,87 @@ export class LoginPage implements OnInit {
     private navCtrl: NavController,
     private afStore: AngularFireStorage,
     private userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit() {}
 
   async login(user: User) {
     if (this.formValidation()) {
       let loader = await this.loadingCtrl.create({
-        message: "Espere por favor...."
+        message: 'Espere por favor....',
       });
       await loader.present();
 
       try {
-        const result = await this.afAuth.signInWithEmailAndPassword(user.correo, user.password);
+        const result = await this.afAuth.signInWithEmailAndPassword(
+          user.correo,
+          user.password
+        );
         console.log(result);
 
         // Obtener el UID del usuario autenticado
         const uid = result.user?.uid;
 
+        // Obtener el token de autenticación
+        const token = await result.user?.getIdToken();
+        console.log('Authentication Token:', token);
+
         if (uid) {
           // Obtener datos del usuario usando el servicio
-          this.userSubscription = this.userService.getUser(uid).subscribe(userDoc => {
-            if (userDoc.payload.exists) {
-              this.currentUser = userDoc.payload.data();
-              console.log(this.currentUser);
-              this.navCtrl.navigateRoot("tabs"); // Navegar solo si el usuario existe
-            } else {
-              this.showToast("Su perfil ha sido eliminado. No puede iniciar sesión.");
-              this.afAuth.signOut(); // Cerrar sesión si el perfil ha sido eliminado
-              if (this.userSubscription) {
-                this.userSubscription.unsubscribe(); // Desuscribir del observable
+          this.userSubscription = this.userService
+            .getUser(uid)
+            .subscribe((userDoc) => {
+              if (userDoc.payload.exists) {
+                this.currentUser = userDoc.payload.data();
+                console.log(this.currentUser);
+                this.navCtrl.navigateRoot('tabs'); // Navegar solo si el usuario existe
+              } else {
+                this.showToast(
+                  'Su perfil ha sido eliminado. No puede iniciar sesión.'
+                );
+                this.afAuth.signOut(); // Cerrar sesión si el perfil ha sido eliminado
+                if (this.userSubscription) {
+                  this.userSubscription.unsubscribe(); // Desuscribir del observable
+                }
               }
-            }
-          });
+            });
         } else {
-          this.showToast("Error al obtener los datos del usuario.");
+          this.showToast('Error al obtener los datos del usuario.');
         }
       } catch (error: any) {
         if (error.code === 'auth/wrong-password') {
-          this.showToast("La contraseña es incorrecta.");
+          this.showToast('La contraseña es incorrecta.');
         } else if (error.code === 'auth/user-not-found') {
-          this.showToast("El usuario no existe.");
+          this.showToast('El usuario no existe.');
         } else {
-          this.showToast("Error al iniciar sesión: " + error.message);
+          this.showToast('Error al iniciar sesión: ' + error.message);
         }
         let errorMessage = error.message || error.getLocalizedMessage();
         this.showToast(errorMessage);
       }
-      console.error("Error al iniciar sesión:");
+      console.error('Error al iniciar sesión:');
       await loader.dismiss();
     }
   }
-  
-  formValidation(){
+
+  formValidation() {
     if (!this.user.correo) {
-      this.showToast("Ingrese su correo electronico");
+      this.showToast('Ingrese su correo electronico');
       return false;
-      
     }
     if (!this.user.password) {
-      this.showToast("Ingrese su contraseña")
+      this.showToast('Ingrese su contraseña');
       return false;
-      
     }
     return true;
   }
-  showToast(message:string){
-    this.toastCtrl.create({
-      message:message,
-      duration:5000
-    }).then(toastData => toastData.present());
+
+  showToast(message: string) {
+    this.toastCtrl
+      .create({
+        message: message,
+        duration: 5000,
+      })
+      .then((toastData) => toastData.present());
   }
 }

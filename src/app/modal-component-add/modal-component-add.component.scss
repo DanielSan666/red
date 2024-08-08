@@ -1,0 +1,219 @@
+ion-header {
+  --background: #1877f2; /* Azul Facebook para el fondo */
+  --color: #ffffff; /* Color blanco para el texto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Línea sutil para el borde inferior */
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #000000;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+ion-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #ffffff;
+  text-align: center;
+  flex: 1;
+}
+
+/* Ajustes generales para el contenido */
+ion-content {
+  --background: #f0f2f5; /* Fondo gris claro */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 15px; /* Espacio superior para el contenedor */
+}
+
+ion-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px 0;
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  transition: transform 0.2s, box-shadow 0.2s; /* Efecto de transición para hover */
+}
+
+ion-card:hover {
+  transform: translateY(-5px); /* Efecto de elevación en hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+}
+
+.avatar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: #f7f7f7;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+ion-avatar {
+  margin-right: 15px;
+}
+
+ion-avatar img {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+ion-card-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin: 2px 0;
+}
+
+ion-card-subtitle {
+  font-size: 12px;
+  color: #666;
+}
+
+ion-card-content {
+  font-size: 12px;
+  color: #333;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+ion-button {
+  --background: transparent;
+  --color: #1877f2; /* Azul Facebook */
+  font-size: 12px;
+  margin: 0;
+}
+
+ion-button ion-icon {
+  font-size: 18px;
+}
+
+.reactions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #f7f7f7;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reaction-button {
+  --background: transparent;
+  --color: #333;
+  font-size: 12px;
+  padding: 0;
+  margin-right: 8px;
+}
+
+.reaction-button ion-icon {
+  margin-right: 4px;
+}
+
+@media (min-width: 768px) {
+  ion-card {
+    max-width: 600px;
+  }
+
+  ion-avatar img {
+    width: 50px;
+    height: 50px;
+  }
+
+  ion-card-title {
+    font-size: 16px;
+  }
+
+  ion-card-subtitle {
+    font-size: 14px;
+  }
+
+  ion-card-content {
+    font-size: 14px;
+  }
+
+  ion-button {
+    font-size: 14px;
+  }
+
+  ion-button ion-icon {
+    font-size: 22px;
+  }
+
+  .reactions {
+    justify-content: space-between;
+  }
+
+  .reaction-button {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  ion-card {
+    margin: 5px;
+  }
+
+  ion-card-title {
+    font-size: 14px;
+  }
+
+  ion-card-subtitle {
+    font-size: 12px;
+  }
+
+  ion-card-content {
+    font-size: 12px;
+  }
+
+  ion-button {
+    font-size: 12px;
+  }
+
+  ion-button ion-icon {
+    font-size: 20px;
+  }
+
+  .reactions {
+    padding: 8px;
+  }
+
+  .reaction-button {
+    font-size: 12px;
+  }
+}

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Camera, CameraResultType, CameraSource, Photo as CapacitorPhoto } from '@capacitor/camera';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo as CapacitorPhoto,
+} from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { Platform } from '@ionic/angular';
@@ -21,15 +26,18 @@ export interface Photo {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PhotoService {
   private PHOTO_STORAGE: string = 'photos';
   public photos: UserPhoto[] = [];
   private platform: Platform;
 
-  constructor(platform: Platform, private storage: AngularFireStorage,
-    private firestore: AngularFirestore) {
+  constructor(
+    platform: Platform,
+    private storage: AngularFireStorage,
+    private firestore: AngularFirestore
+  ) {
     this.platform = platform;
   }
 
@@ -41,7 +49,7 @@ export class PhotoService {
       for (let photo of this.photos) {
         const readFile = await Filesystem.readFile({
           path: photo.filepath,
-          directory: Directory.Data
+          directory: Directory.Data,
         });
         photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
       }
@@ -51,24 +59,25 @@ export class PhotoService {
   private async readAsBase64(photo: CapacitorPhoto) {
     if (this.platform.is('hybrid')) {
       const file = await Filesystem.readFile({
-        path: photo.path!
+        path: photo.path!,
       });
       return file.data;
     } else {
       const response = await fetch(photo.webPath!);
       const blob = await response.blob();
-      return await this.convertBlobToBase64(blob) as string;
+      return (await this.convertBlobToBase64(blob)) as string;
     }
   }
 
-  private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.readAsDataURL(blob);
-  });
+  private convertBlobToBase64 = (blob: Blob) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    });
 
   private async savePicture(photo: CapacitorPhoto): Promise<UserPhoto> {
     const base64Data = await this.readAsBase64(photo);
@@ -76,7 +85,7 @@ export class PhotoService {
     const savedFile = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
-      directory: Directory.Data
+      directory: Directory.Data,
     });
 
     if (this.platform.is('hybrid')) {
@@ -87,7 +96,7 @@ export class PhotoService {
     } else {
       return {
         filepath: fileName,
-        webviewPath: photo.webPath
+        webviewPath: photo.webPath,
       };
     }
   }
@@ -96,7 +105,7 @@ export class PhotoService {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
-      quality: 100
+      quality: 100,
     });
 
     const savedImageFile = await this.savePicture(capturedPhoto);
@@ -126,13 +135,16 @@ export class PhotoService {
     const task = this.storage.upload(filePath, blob);
 
     return new Promise<string>((resolve, reject) => {
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-            resolve(url);
-          }, reject);
-        })
-      ).subscribe();
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe((url) => {
+              resolve(url);
+            }, reject);
+          })
+        )
+        .subscribe();
     });
   }
 

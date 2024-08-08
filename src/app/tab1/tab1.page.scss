@@ -1,0 +1,215 @@
+ion-header {
+  --background: #1877f2; /* Azul Facebook para el fondo */
+  --color: #000000; /* Color blanco para el texto */
+  --border-width: 0; /* Quitar borde por defecto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+ion-toolbar {
+  --background: #ffffff; /* Azul Facebook para el fondo */
+  --color: #000000; /* Color blanco para el texto */
+  padding: 0 16px; /* Espaciado interno */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+ion-title {
+  font-size: 20px; /* Tamaño de fuente para el título */
+  font-weight: bold; /* Negrita para el título */
+  margin: 0; /* Sin margen adicional */
+  color: #000000; /* Color de texto blanco */
+  text-align: center; /* Centrar el texto */
+  flex: 1; /* Ocupa el espacio disponible */
+}
+
+/* Ajustes generales para el contenido */
+ion-content {
+  --background: #f0f0f0; /* Fondo claro para el contenido */
+  display: flex;
+  flex-direction: column; /* Alinear elementos en columna */
+  align-items: center; /* Centrar horizontalmente */
+  padding: 0; /* Eliminar padding extra */
+  margin: 0; /* Eliminar margen extra */
+}
+
+/* Contenedor para centrar las tarjetas */
+.cards-container {
+  display: flex;
+  flex-direction: column; /* Alinear tarjetas en columna */
+  align-items: center; /* Centrar horizontalmente */
+  width: 100%; /* Asegura que el contenedor ocupe el 100% del ancho disponible */
+  max-width: 600px; /* Ancho máximo para el contenedor de tarjetas */
+  margin: 0 auto; /* Centramos el contenedor horizontalmente */
+}
+
+/* Estilos para las tarjetas */
+ion-card {
+  background: #ffffff; /* Fondo blanco para la tarjeta */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  margin: 10px 0; /* Separar las tarjetas verticalmente */
+  overflow: hidden; /* Ocultar desbordamiento para imágenes */
+  width: 100%; /* Asegura que la tarjeta ocupe el 100% del ancho disponible */
+  max-width: 600px; /* Ancho máximo para pantallas más grandes */
+  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho total */
+}
+
+/* Nueva clase para el encabezado del avatar y texto */
+.avatar-header {
+  display: flex;
+  align-items: center; /* Centrar verticalmente el contenido */
+  justify-content: space-between; /* Alinear el contenido en los extremos */
+  padding: 10px; /* Espaciado interno del encabezado */
+  background: #f7f7f7; /* Fondo claro */
+  width: 100%; /* Asegura que el encabezado ocupe el 100% del ancho */
+  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho total */
+}
+
+ion-avatar {
+  margin-right: 15px; /* Separar el avatar del contenido */
+}
+
+ion-avatar img {
+  border-radius: 50%; /* Hacer el avatar circular */
+  width: 45px; /* Tamaño del avatar */
+  height: 45px; /* Tamaño del avatar */
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column; /* Alinear texto en columna */
+  justify-content: center; /* Centrar verticalmente */
+  flex-grow: 1; /* Ocupa el espacio restante */
+  margin-right: 10px; /* Separar el texto del botón */
+}
+
+ion-card-title {
+  font-size: 14px; /* Tamaño de fuente para el título */
+  font-weight: bold;
+  color: #333; /* Color de texto oscuro */
+  margin: 2px 0; /* Márgenes para separar título y subtítulos */
+}
+
+ion-card-subtitle {
+  font-size: 12px; /* Tamaño de fuente para el subtítulo */
+  color: #666; /* Gris medio para el subtítulo */
+}
+
+ion-card-content {
+  font-size: 12px; /* Tamaño de fuente para el contenido */
+  color: #333; /* Color de texto oscuro */
+  padding: 10px; /* Padding interno del contenido */
+  width: 100%; /* Asegura que el contenido ocupe el 100% del ancho de la tarjeta */
+  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho total */
+}
+
+ion-button {
+  --background: transparent; /* Fondo transparente para el botón */
+  --color: #1877f2; /* Azul Facebook para los íconos */
+  font-size: 12px; /* Tamaño de fuente para el botón */
+  margin: 0; /* Sin margen adicional */
+}
+
+ion-button ion-icon {
+  font-size: 18px; /* Tamaño del ícono dentro del botón */
+}
+
+.reactions {
+  display: flex;
+  justify-content: space-between; /* Espacio entre los íconos */
+  padding: 10px; /* Padding para el contenedor de reacciones */
+  background: #f7f7f7; /* Fondo claro para las reacciones */
+  width: 100%; /* Asegura que el contenedor ocupe el 100% del ancho de la tarjeta */
+  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho total */
+}
+
+.reaction-button {
+  --background: transparent; /* Fondo transparente para el botón de reacción */
+  --color: #333; /* Color oscuro para los íconos de reacción */
+  font-size: 12px; /* Tamaño de ícono de reacción */
+  padding: 0; /* Sin padding extra */
+  margin-right: 8px; /* Separar íconos de reacción */
+}
+
+.reaction-button ion-icon {
+  margin-right: 4px; /* Separar íconos de reacción */
+}
+
+@media (min-width: 768px) {
+  ion-card {
+    max-width: 600px; /* Ancho máximo para pantallas más grandes */
+  }
+
+  ion-avatar img {
+    width: 50px; /* Tamaño del avatar para pantallas grandes */
+    height: 50px; /* Tamaño del avatar para pantallas grandes */
+  }
+
+  ion-card-title {
+    font-size: 16px; /* Tamaño de fuente más grande para pantallas grandes */
+  }
+
+  ion-card-subtitle {
+    font-size: 14px; /* Tamaño de fuente más grande para pantallas grandes */
+  }
+
+  ion-card-content {
+    font-size: 14px; /* Tamaño de fuente más grande para pantallas grandes */
+  }
+
+  ion-button {
+    font-size: 14px; /* Tamaño de fuente más grande para pantallas grandes */
+  }
+
+  ion-button ion-icon {
+    font-size: 22px; /* Tamaño del ícono dentro del botón para pantallas grandes */
+  }
+
+  .reactions {
+    justify-content: space-between; /* Espacio más amplio entre los íconos en pantallas grandes */
+  }
+
+  .reaction-button {
+    font-size: 14px; /* Tamaño de ícono de reacción para pantallas grandes */
+  }
+}
+
+@media (max-width: 767px) {
+  ion-card {
+    margin: 5px; /* Reducir el margen para pantallas pequeñas */
+  }
+
+  ion-card-title {
+    font-size: 14px; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+
+  ion-card-subtitle {
+    font-size: 12px; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+
+  ion-card-content {
+    font-size: 12px; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+
+  ion-button {
+    font-size: 12px; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+  }
+
+  ion-button ion-icon {
+    font-size: 20px; /* Tamaño del ícono dentro del botón para pantallas pequeñas */
+  }
+
+  .reactions {
+    padding: 8px; /* Reducir padding para pantallas pequeñas */
+  }
+
+  .reaction-button {
+    font-size: 12px; /* Tamaño de ícono de reacción para pantallas pequeñas */
+  }
+}

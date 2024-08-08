@@ -1,1 +1,14 @@
+ion-tab-bar {
+  --background: #ffffff; /* Fondo blanco para la barra de pestañas */
+  --color: #000000; /* Color de texto negro para los iconos y etiquetas */
+  --color-selected: #007bff; /* Color del icono seleccionado */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidad */
+}
 
+ion-tab-button {
+  --color: #000000; /* Color de texto negro para los iconos y etiquetas */
+}
+
+ion-tab-button[aria-selected="true"] {
+  --color: #007bff; /* Color del icono seleccionado */
+}

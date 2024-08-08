@@ -1,0 +1,64 @@
+:host {
+  display: block;
+  height: 100vh; /* Asegura que el host ocupe toda la altura del viewport */
+}
+
+ion-header {
+  --background: #ffffff; /* Fondo blanco para el encabezado */
+  --color: #000000; /* Color de texto negro */
+}
+
+ion-toolbar {
+  --background: #f8f8f8; /* Fondo ligeramente gris para el toolbar */
+  --color: #000000; /* Color de texto negro */
+  border-bottom: 1px solid #e0e0e0; /* Línea sutil en la parte inferior del toolbar */
+}
+
+ion-title {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+ion-buttons ion-button {
+  --background: transparent; /* Fondo transparente para los botones en el toolbar */
+  --color: #007bff; /* Color azul para los botones */
+  --border-radius: 20px; /* Bordes redondeados */
+  font-size: 14px; /* Tamaño de fuente del botón */
+}
+
+ion-buttons ion-button:hover {
+  --color: #0056b3; /* Color más oscuro para el botón al pasar el ratón */
+}
+
+ion-content {
+  --background: #f0f0f0; /* Fondo claro para el contenido */
+  padding: 20px; /* Padding interno para el contenido */
+}
+
+ion-item {
+  --background: #ffffff; /* Fondo blanco para los elementos del formulario */
+  --border-radius: 8px; /* Bordes redondeados para los elementos */
+  margin-bottom: 20px; /* Separar los elementos del formulario */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para los elementos */
+  color: #000000;
+}
+
+ion-label {
+  color: #333; /* Color gris oscuro para las etiquetas */
+  font-weight: bold; /* Negrita para etiquetas */
+}
+
+ion-input {
+  --padding-start: 0; /* Sin padding extra a la izquierda */
+  --background: #ffffff; /* Fondo blanco para el input */
+}
+
+ion-button {
+  --background: #007bff; /* Color azul para los botones */
+  --color: #ffffff; /* Color de texto blanco para los botones */
+  --border-radius: 25px; /* Bordes redondeados para el botón */
+  font-weight: bold;
+  margin-top: 10px; /* Margen superior entre botones */
+  padding: 10px 20px; /* Padding interno del botón */
+}

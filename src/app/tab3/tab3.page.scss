@@ -1,0 +1,168 @@
+:host {
+  display: block;
+  height: 100vh; /* Asegura que el host ocupe toda la altura del viewport */
+}
+
+ion-content {
+  --background: #f0f0f0; /* Color de fondo claro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Usa el 100% de la altura del ion-content */
+  padding: 20px; /* Añadir padding para separar del borde */
+  box-sizing: border-box; /* Incluye padding en el cálculo del ancho total */
+}
+
+ion-header {
+  --background: #ffffff; /* Fondo blanco para el encabezado */
+  --color: #333; /* Color de texto oscuro */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil en el encabezado */
+}
+
+ion-toolbar {
+  --background: #ffffff; /* Fondo blanco para la barra de herramientas */
+  --color: #333; /* Color de texto oscuro */
+}
+
+ion-card {
+  background: #ffffff; /* Fondo blanco para la tarjeta */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+  max-width: 360px; /* Ancho máximo de la tarjeta */
+  margin: 20px auto; /* Separar del borde superior e inferior */
+  padding: 20px; /* Padding interno para separar el contenido del borde */
+  box-sizing: border-box; /* Incluye padding en el cálculo del ancho total */
+}
+
+ion-avatar {
+  margin: 0 auto; /* Centrar el avatar horizontalmente */
+}
+
+ion-card-header {
+  text-align: center; /* Centrar el contenido del encabezado */
+}
+
+ion-card-title {
+  font-size: 22px; /* Tamaño de fuente mayor para el título */
+  font-weight: bold;
+  color: #333; /* Color de texto oscuro */
+}
+
+ion-card-subtitle {
+  font-size: 16px;
+  color: #666; /* Gris medio para subtítulo */
+}
+
+ion-card-content {
+  color: #333; /* Color de texto oscuro */
+  margin-top: 10px;
+}
+
+ion-button {
+  --background: #1877f2; /* Azul de Facebook para el botón */
+  --color: #ffffff; /* Color de texto blanco */
+  --border-radius: 50px; /* Bordes redondeados completamente circulares */
+  font-weight: bold;
+  margin-top: 12px; /* Añadir margen superior entre botones */
+  --height: 50px; /* Altura del botón */
+  --padding-start: 20px; /* Padding horizontal para botones */
+  --padding-end: 20px; /* Padding horizontal para botones */
+  --font-size: 16px; /* Tamaño de fuente para los botones */
+}
+
+ion-button.secondary {
+  --background: #f0f2f5; /* Fondo claro para botones secundarios */
+  --color: #1877f2; /* Color de texto azul Facebook */
+  --border-radius: 50px; /* Bordes redondeados completamente circulares */
+  --height: 45px; /* Altura del botón secundario */
+  --padding-start: 18px; /* Padding horizontal reducido */
+  --padding-end: 18px; /* Padding horizontal reducido */
+  --font-size: 16px; /* Tamaño de fuente para los botones secundarios */
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+  ion-card {
+    max-width: 100%; /* Ancho completo en pantallas pequeñas */
+    margin: 10px 0; /* Reducir margen en pantallas pequeñas */
+    padding: 10px; /* Reducir padding interno en pantallas pequeñas */
+  }
+
+  ion-card-title {
+    font-size: 18px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+  }
+
+  ion-card-subtitle {
+    font-size: 14px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+  }
+
+  ion-card-content {
+    font-size: 14px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+  }
+
+  ion-button {
+    --font-size: 14px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+    --height: 40px; /* Reducir altura del botón en pantallas pequeñas */
+  }
+
+  ion-button.secondary {
+    --font-size: 14px; /* Tamaño de fuente más pequeño en botones secundarios */
+    --height: 40px; /* Reducir altura del botón secundario */
+  }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+  ion-card {
+    max-width: 90%; /* Ancho más grande en pantallas medianas */
+  }
+
+  ion-card-title {
+    font-size: 20px; /* Tamaño de fuente mayor en pantallas medianas */
+  }
+
+  ion-card-subtitle {
+    font-size: 15px; /* Tamaño de fuente mayor en pantallas medianas */
+  }
+
+  ion-card-content {
+    font-size: 15px; /* Tamaño de fuente mayor en pantallas medianas */
+  }
+
+  ion-button {
+    --font-size: 15px; /* Tamaño de fuente mayor en pantallas medianas */
+    --height: 45px; /* Ajustar altura del botón */
+  }
+
+  ion-button.secondary {
+    --font-size: 15px; /* Tamaño de fuente mayor en botones secundarios */
+    --height: 45px; /* Ajustar altura del botón secundario */
+  }
+}
+
+@media (min-width: 769px) {
+  ion-card {
+    max-width: 600px; /* Ancho máximo en pantallas grandes */
+  }
+
+  ion-card-title {
+    font-size: 22px; /* Tamaño de fuente grande en pantallas grandes */
+  }
+
+  ion-card-subtitle {
+    font-size: 16px; /* Tamaño de fuente grande en pantallas grandes */
+  }
+
+  ion-card-content {
+    font-size: 16px; /* Tamaño de fuente grande en pantallas grandes */
+  }
+
+  ion-button {
+    --font-size: 16px; /* Tamaño de fuente grande en pantallas grandes */
+    --height: 50px; /* Altura del botón en pantallas grandes */
+  }
+
+  ion-button.secondary {
+    --font-size: 16px; /* Tamaño de fuente grande en botones secundarios */
+    --height: 50px; /* Altura del botón secundario */
+  }
+}
