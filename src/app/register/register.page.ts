@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
+import { Router } from '@angular/router';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -16,10 +17,15 @@ export class RegisterPage implements OnInit {
     private loadingCtrl: LoadingController,
     private afAuth: AngularFireAuth,
     private navCtrl: NavController,
-    private afStore: AngularFirestore
+    private afStore: AngularFirestore,
+    private router: Router
   ) { }
 
   ngOnInit() {}
+
+  navigate(){
+    this.router.navigate(['/login'])
+  }
 
   async register(user: User) {
     if (this.formValidation()) {
