@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Feed</ion-title>
+      <ion-title size="large">Inicio</ion-title>
       <ion-buttons slot="end">
         <ion-button>
           <ion-icon slot="icon-only" name="chatbubble-ellipses-outline"></ion-icon>
@@ -34,16 +34,16 @@
         <ion-img [src]="post.imageUrl"></ion-img>
       </div>
       <ion-card-content>{{ post.contenido }}</ion-card-content>
-      <div class="reactions">
-        <ion-button class="reaction-button">
+      <div class="reactions" *ngFor="let comment of comments" >
+        <ion-button class="reaction-button" (click)="addReaction()">
           <ion-icon name="thumbs-up-outline"></ion-icon>
           Me gusta
         </ion-button>
-        <ion-button class="reaction-button">
-          <ion-icon name="chatbubble-outline"></ion-icon>
-          Comentar
-        </ion-button>
-        <ion-button class="reaction-button">
+        <ion-input [(ngModel)]="newComment" placeholder="Escribe un comentario..."></ion-input>
+          <ion-button (click)="addComment(newComment); newComment=''">
+              Comentar
+          </ion-button>
+        <ion-button (click)="share()" class="reaction-button">
           <ion-icon name="share-social-outline"></ion-icon>
           Compartir
         </ion-button>

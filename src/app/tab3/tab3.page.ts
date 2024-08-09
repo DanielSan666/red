@@ -4,7 +4,6 @@ import { LoadingController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { UserService } from '../services/perfil/perfil.service';
 import { AuthService } from '../services/auth/auth.service';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ModalEditNombreComponent } from '../modal-edit/modal-edit-nombre/modal-edit-nombre.component';
 import { ModalEditTelefonoComponent } from '../modal-edit/modal-edit-telefono/modal-edit-telefono.component';
 import { ModalEditPasComponent } from '../modal-edit/modal-edit-pas/modal-edit-pas.component';
@@ -22,7 +21,6 @@ export class Tab3Page implements OnInit {
     private userService: UserService,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    private afStore: AngularFirestore,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
     private navCtrl: NavController,

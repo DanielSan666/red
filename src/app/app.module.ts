@@ -10,6 +10,7 @@ import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import { FormsModule } from '@angular/forms';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 import { ModalComponentComponent } from './modal-component/modal-component.component';
 import { ModalEditNombreComponent } from './modal-edit/modal-edit-nombre/modal-edit-nombre.component';
 import { ModalEditTelefonoComponent } from './modal-edit/modal-edit-telefono/modal-edit-telefono.component';
@@ -24,7 +25,7 @@ import { ModalEditPasComponent } from './modal-edit/modal-edit-pas/modal-edit-pa
     AngularFireModule.initializeApp(environment.FIREBASE_CONFIG)
     ,AngularFireAuthModule, 
     AngularFirestoreModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [SocialSharing,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
   
 })

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
+import { SocialService } from '../services/social/social.service';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { UserService } from '../services/perfil/perfil.service';
-import { AuthService } from '../services/auth/auth.service';
 import { ModalComponentAddComponent } from '../modal-component-add/modal-component-add.component';
 import { ModalComponentComponent } from '../modal-component/modal-component.component';
 import { ActionSheetController, NavController,ModalController } from '@ionic/angular';
@@ -16,8 +17,11 @@ import { DataService } from '../services/publicacion/data.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  comments: any[] = [];
+  reactions: any[] = [];
   posts: any;
   currentUser: any;
+  newComment: string = '';
   users: { [key: string]: any } = {}; 
   public actionSheetButtons = [
     {
@@ -51,10 +55,31 @@ export class Tab1Page {
     private dataService: DataService,
     private userService: UserService,
     private afAuth: AngularFireAuth,
+    private social: SocialService
+
   ) {
     
     addIcons({ add });
   }
+  share() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Red-Social',
+        text: 'Mira lo que comparti en esta publicacion',
+        url: 'https://Red-Social.com'
+      })
+      .then(() => {
+        console.log('Shared successfully!');
+      })
+      .catch((error) => {
+        console.error('Error sharing:', error);
+      });
+    } else {
+      console.log('Sharing not supported');
+    }
+  }
+
+
   ionViewWillEnter() {
     this.getPosts();
   }
@@ -62,7 +87,26 @@ export class Tab1Page {
     this.afAuth.authState.subscribe(user => {
       this.currentUser = user;
     });
+      // Escuchar cambios en tiempo real para comentarios
+      this.social.getComments(this.posts).subscribe(comments => {
+        this.comments = comments;
+      });
+  
+      // Escuchar cambios en tiempo real para reacciones
+      this.social.getReactions(this.posts).subscribe(reactions => {
+        this.reactions = reactions;
+      });
   }
+  addComment(comment: string) {
+    const userId = this.currentUser;  // Reemplaza con el ID real del usuario
+    this.social.addComment(this.posts, comment, userId);
+  }
+
+  addReaction() {
+    const userId = this.currentUser;  // Reemplaza con el ID real del usuario
+    this.social.addReaction(this.posts, userId);
+  }
+
   loadUsersForPosts(posts: any[]) {
     const userIds = [...new Set(posts.map(post => post.userId))]; // Obtener IDs únicos
     userIds.forEach(userId => {
@@ -157,17 +201,14 @@ export class Tab1Page {
     return post && this.currentUser && post.userId === this.currentUser.uid;
   }
 
-  async openEditModal(id: string) {
+  async openEditModal(postId: string) {
     const modal = await this.modalCtrl.create({
       component: ModalComponentComponent,
-      componentProps: { data: { id } }
+      componentProps: {
+        id: postId // Pasar el ID como un prop
+      }
     });
     return await modal.present();
-
-    const { data } = await modal.onDidDismiss();
-    if (data) {
-      // Handle the data from the modal if necessary
-    }
   }
 
   async openModal() {
