@@ -1,12 +1,12 @@
 ion-header {
-  --background: #1877f2; /* Azul Facebook para el fondo */
-  --color: #ffffff; /* Color blanco para el texto */
+  --background: #ffffff;
+  --color: #1877f2;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Línea sutil para el borde inferior */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 ion-toolbar {
@@ -23,14 +23,13 @@ ion-title {
   font-size: 20px;
   font-weight: bold;
   margin: 0;
-  color: #ffffff;
+  color: #1877f2;
   text-align: center;
   flex: 1;
 }
 
-/* Ajustes generales para el contenido */
 ion-content {
-  --background: #f0f2f5; /* Fondo gris claro */
+  --background: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,7 +44,7 @@ ion-content {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  padding-top: 15px; /* Espacio superior para el contenedor */
+  padding-top: 15px;
 }
 
 ion-card {
@@ -57,12 +56,12 @@ ion-card {
   width: 100%;
   max-width: 600px;
   box-sizing: border-box;
-  transition: transform 0.2s, box-shadow 0.2s; /* Efecto de transición para hover */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 ion-card:hover {
-  transform: translateY(-5px); /* Efecto de elevación en hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .avatar-header {
@@ -70,7 +69,7 @@ ion-card:hover {
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background: #f7f7f7;
+  background: #ffffff;
   width: 100%;
   box-sizing: border-box;
 }
@@ -115,7 +114,7 @@ ion-card-content {
 
 ion-button {
   --background: transparent;
-  --color: #1877f2; /* Azul Facebook */
+  --color: #1877f2;
   font-size: 12px;
   margin: 0;
 }
@@ -128,7 +127,7 @@ ion-button ion-icon {
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  background: #f7f7f7;
+  background: #ffffff;
   width: 100%;
   box-sizing: border-box;
 }

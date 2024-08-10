@@ -1,6 +1,6 @@
 ion-header {
   --background: #1877f2; /* Azul Facebook para el fondo */
-  --color: #000000; /* Color blanco para el texto */
+  --color: #000000; /* Color negro para el texto */
   --border-width: 0; /* Quitar borde por defecto */
   display: flex;
   align-items: center;
@@ -10,8 +10,8 @@ ion-header {
 }
 
 ion-toolbar {
-  --background: #ffffff; /* Azul Facebook para el fondo */
-  --color: #000000; /* Color blanco para el texto */
+  --background: #ffffff; /* Fondo blanco */
+  --color: #000000; /* Color negro para el texto */
   padding: 0 16px; /* Espaciado interno */
   display: flex;
   align-items: center;
@@ -23,7 +23,7 @@ ion-title {
   font-size: 20px; /* Tamaño de fuente para el título */
   font-weight: bold; /* Negrita para el título */
   margin: 0; /* Sin margen adicional */
-  color: #000000; /* Color de texto blanco */
+  color: #000000; /* Color de texto negro */
   text-align: center; /* Centrar el texto */
   flex: 1; /* Ocupa el espacio disponible */
 }
@@ -110,14 +110,23 @@ ion-card-content {
 }
 
 ion-button {
-  --background: transparent; /* Fondo transparente para el botón */
-  --color: #1877f2; /* Azul Facebook para los íconos */
-  font-size: 12px; /* Tamaño de fuente para el botón */
-  margin: 0; /* Sin margen adicional */
+  --background: #1877f2; /* Azul Facebook */
+  --color: #ffffff; /* Texto blanco */
+  font-size: 14px; /* Tamaño de fuente */
+  margin: 5px; /* Margen alrededor del botón */
+  border-radius: 4px; /* Bordes redondeados */
+  padding: 8px 16px; /* Padding interno para más espacio */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+}
+
+ion-button:active {
+  transform: translateY(0); /* Volver a la posición original al hacer clic */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra más intensa al hacer clic */
 }
 
 ion-button ion-icon {
   font-size: 18px; /* Tamaño del ícono dentro del botón */
+  margin-right: 4px; /* Espacio entre el ícono y el texto */
 }
 
 .reactions {
@@ -135,6 +144,9 @@ ion-button ion-icon {
   font-size: 12px; /* Tamaño de ícono de reacción */
   padding: 0; /* Sin padding extra */
   margin-right: 8px; /* Separar íconos de reacción */
+  display: flex; /* Usar flexbox para alinear íconos y texto */
+  align-items: center; /* Alinear verticalmente */
+  transition: color 0.3s ease; /* Transición suave para el color */
 }
 
 .reaction-button ion-icon {
@@ -164,7 +176,8 @@ ion-button ion-icon {
   }
 
   ion-button {
-    font-size: 14px; /* Tamaño de fuente más grande para pantallas grandes */
+    font-size: 16px; /* Tamaño de fuente más grande para pantallas grandes */
+    padding: 10px 20px; /* Más espacio en pantallas grandes */
   }
 
   ion-button ion-icon {
@@ -199,17 +212,31 @@ ion-button ion-icon {
 
   ion-button {
     font-size: 12px; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+    padding: 6px 12px; /* Menos espacio en pantallas pequeñas */
   }
 
   ion-button ion-icon {
-    font-size: 20px; /* Tamaño del ícono dentro del botón para pantallas pequeñas */
-  }
-
-  .reactions {
-    padding: 8px; /* Reducir padding para pantallas pequeñas */
+    font-size: 16px; /* Tamaño del ícono dentro del botón para pantallas pequeñas */
   }
 
   .reaction-button {
     font-size: 12px; /* Tamaño de ícono de reacción para pantallas pequeñas */
+  }
+  /* Estilos para los íconos en el ion-toolbar */
+  ion-toolbar ion-buttons ion-button ion-icon[name="notifications-outline"],
+  ion-toolbar ion-buttons ion-button ion-icon[name="chatbubbles-outline"] {
+    font-size: 24px; /* Tamaño del ícono */
+    color: #1877f2; /* Color azul de Facebook para los íconos */
+  }
+
+  /* Ajuste de espacio alrededor de los botones para íconos */
+  ion-toolbar ion-buttons ion-button {
+    --padding-start: 0; /* Eliminar padding al inicio */
+    --padding-end: 0; /* Eliminar padding al final */
+  }
+
+  /* Añadir un pequeño margen entre los íconos */
+  ion-toolbar ion-buttons ion-button + ion-button {
+    margin-left: 10px; /* Espacio entre los íconos */
   }
 }

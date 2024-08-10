@@ -1,0 +1,113 @@
+ion-header {
+  --background: #ffffff; /* Fondo blanco para el modo claro */
+  --color: #1877f2; /* Azul para el texto y los botones */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Línea sutil para el borde inferior */
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #000000;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+ion-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1877f2; /* Azul para el título */
+}
+
+ion-buttons {
+  --color: #1877f2; /* Azul para los botones */
+}
+
+ion-button {
+  --background: #ffffff;
+  --color: #1877f2;
+  --border-radius: 4px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+ion-button[fill="outline"] {
+  --background: transparent;
+  --border: 1px solid #1877f2;
+}
+
+ion-button:hover {
+  --background: #f0f2f5;
+  --color: #1877f2;
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+ion-content {
+  --background: #ffffff; /* Fondo blanco para el contenido */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+ion-item {
+  --background: #ffffff; /* Fondo blanco para el ítem */
+  --border-color: #e0e0e0; /* Borde gris claro */
+  --border-width: 1px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+ion-label {
+  color: #333; /* Color oscuro para el texto de la etiqueta */
+  font-weight: bold;
+}
+
+ion-input {
+  --background: #f9f9f9; /* Fondo ligeramente gris para el campo de entrada */
+  --color: #333; /* Color oscuro para el texto */
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --border-radius: 4px;
+  --border: 1px solid #ddd; /* Borde gris claro */
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+ion-input[placeholder] {
+  color: #999; /* Color gris para el texto del placeholder */
+}
+
+ion-input[label] {
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  ion-button {
+    font-size: 16px;
+  }
+
+  ion-input {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  ion-button {
+    font-size: 12px;
+  }
+
+  ion-input {
+    font-size: 14px;
+  }
+}

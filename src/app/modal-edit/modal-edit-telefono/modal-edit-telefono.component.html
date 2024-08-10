@@ -3,20 +3,17 @@
     <ion-buttons slot="start">
       <ion-button (click)="cancel()">Cancelar</ion-button>
     </ion-buttons>
-    <ion-title>Editar telefono</ion-title>
+    <ion-title>Editar teléfono</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="updatePhone(currentUser.uid , user.telefono)" [strong]="true">Actualizar</ion-button>
+      <ion-button (click)="updatePhone(currentUser.uid, user.telefono)" [strong]="true">Actualizar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="user" >
+<ion-content class="ion-padding" *ngIf="user">
   <ion-item>
-    <ion-label position="stacked">Telefono</ion-label>
-    <ion-input 
-      type="text" 
-      placeholder="Telefono" 
-      [(ngModel)]="user.telefono">
+    <ion-label position="stacked">Teléfono</ion-label>
+    <ion-input type="text" placeholder="Teléfono" [(ngModel)]="user.telefono">
     </ion-input>
   </ion-item>
 </ion-content>

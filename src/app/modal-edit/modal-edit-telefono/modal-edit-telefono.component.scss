@@ -1,0 +1,116 @@
+ion-header {
+  --background: #ffffff; /* Fondo blanco para el modo claro */
+  --color: #000000; /* Color negro para el texto y los botones */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Línea sutil para el borde inferior */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #000000;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ion-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000000; /* Negro para el título */
+  transition: color 0.3s ease;
+}
+
+ion-buttons {
+  --color: #000000; /* Negro para los botones */
+}
+
+ion-button {
+  --background: #ffffff;
+  --color: #000000; /* Negro para el texto del botón */
+  --border-radius: 4px;
+  font-size: 14px;
+  padding: 8px 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ion-content {
+  --background: #f9f9f9; /* Fondo gris claro para el contenido */
+  padding: 16px;
+  animation: fadeIn 0.5s ease-in-out; /* Animación de entrada */
+}
+
+ion-item {
+  --background: #ffffff; /* Fondo blanco para el ítem */
+  --border-color: #ddd; /* Borde gris claro */
+  --border-width: 1px;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+ion-label {
+  color: #000000 !important; /* Asegurar color negro para el texto de la etiqueta */
+  font-weight: bold;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+ion-input {
+  --background: #ffffff; /* Fondo blanco para el campo de entrada */
+  --color: #000000; /* Color negro para el texto */
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --border-radius: 4px;
+  --border: 1px solid #ddd; /* Borde gris claro */
+  font-size: 14px;
+  margin-top: 8px;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+ion-input::placeholder {
+  color: #999; /* Color gris para el texto del placeholder */
+  transition: color 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  ion-button {
+    font-size: 16px;
+  }
+
+  ion-input {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  ion-button {
+    font-size: 12px;
+  }
+
+  ion-input {
+    font-size: 14px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+ion-button:hover {
+  --background: #f0f0f0; /* Cambia el fondo al pasar el ratón */
+  transform: scale(1.05); /* Agranda ligeramente el botón */
+}
+
+ion-input:focus {
+  --border-color: #007bff; /* Cambia el color del borde al enfocar */
+}
