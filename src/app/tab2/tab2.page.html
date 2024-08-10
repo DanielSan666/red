@@ -1,14 +1,22 @@
 <ion-content>
+  <!-- Estructura de cuadrícula de Ionic -->
   <ion-grid>
+    <!-- Fila dentro de la cuadrícula -->
     <ion-row>
+      <!-- Columna que ocupa el 50% del ancho de la fila (size="6") -->
+      <!-- Se itera sobre el array de fotos del servicio photoService -->
       <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+        <!-- Muestra la imagen, utilizando la ruta webviewPath de cada foto -->
         <ion-img [src]="photo.webviewPath"></ion-img>
       </ion-col>
     </ion-row>
   </ion-grid>
 
+  <!-- Botón flotante de acción rápida -->
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <!-- Botón que activa la función para agregar una nueva foto a la galería -->
     <ion-fab-button (click)="addPhotoToGallery()">
+      <!-- Ícono de cámara dentro del botón -->
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
   </ion-fab>

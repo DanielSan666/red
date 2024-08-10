@@ -1,48 +1,70 @@
+<!-- Encabezado de la página -->
 <ion-header>
   <ion-toolbar>
+    <!-- Título de la página -->
     <ion-title size="large">Inicio</ion-title>
+    <!-- Botones ubicados al final del toolbar -->
     <ion-buttons slot="end">
-      <ion-button>
+      <!-- Botón de notificaciones, con un ícono y un evento de clic -->
+      <ion-button (click)="openSoon()">
         <ion-icon name="notifications-outline"></ion-icon>
       </ion-button>
-      <ion-button>
+      <!-- Botón de mensajes o chat, con un ícono y un evento de clic -->
+      <ion-button (click)="openSoon()">
         <ion-icon name="chatbubbles-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
+<!-- Contenido principal de la página -->
 <ion-content [fullscreen]="true">
+  <!-- Contenedor para las tarjetas de publicaciones -->
   <div class="cards-container">
+    <!-- Recorre cada publicación en el array `posts` y genera una tarjeta por cada una -->
     <ion-card *ngFor="let post of posts">
+      <!-- Encabezado de la tarjeta, incluye avatar y título -->
       <div class="avatar-header">
+        <!-- Avatar del usuario que realizó la publicación -->
         <ion-avatar>
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
+        <!-- Texto en el encabezado, muestra nombre, título y detalles de la publicación -->
         <div class="header-text">
+          <!-- Muestra el nombre del usuario si está disponible en el objeto `users` -->
           <ion-card-subtitle *ngIf="users[post.userId]">{{
             users[post.userId].nombre
             }}</ion-card-subtitle>
+          <!-- Título de la publicación -->
           <ion-card-title>{{ post.titulo }}</ion-card-title>
+          <!-- Detalles de la publicación -->
           <ion-card-subtitle>{{ post.detalles }}</ion-card-subtitle>
         </div>
+        <!-- Botón de acciones solo visible si el usuario actual es el propietario de la publicación -->
         <ion-button *ngIf="isPostOwner(post.id)" (click)="presentActionSheet(post.id)">
           <ion-icon inert aria-hidden="true" name="ellipsis-vertical-outline"></ion-icon>
         </ion-button>
       </div>
+      <!-- Contenedor de la imagen de la publicación -->
       <div class="image-container">
+        <!-- Imagen asociada a la publicación -->
         <ion-img [src]="post.imageUrl"></ion-img>
       </div>
+      <!-- Contenido del cuerpo de la tarjeta, muestra el contenido de la publicación -->
       <ion-card-content>{{ post.contenido }}</ion-card-content>
+      <!-- Grupo de botones para las interacciones (me gusta, comentar, compartir) -->
       <div class="button-group">
-        <ion-button class="reaction-button">
+        <!-- Botón "Me gusta", activa el método `openSoon()` -->
+        <ion-button class="reaction-button" (click)="openSoon()">
           <ion-icon name="thumbs-up-outline"></ion-icon>
           Me gusta
         </ion-button>
-        <ion-button class="reaction-button">
+        <!-- Botón "Comentar", activa el método `openSoon()` -->
+        <ion-button (click)="openSoon()" class="reaction-button">
           <ion-icon name="chatbubble-outline"></ion-icon>
           Comentar
         </ion-button>
+        <!-- Botón "Compartir", activa el método `share()` -->
         <ion-button (click)="share()" class="reaction-button">
           <ion-icon name="share-social-outline"></ion-icon>
           Compartir
@@ -51,7 +73,10 @@
     </ion-card>
   </div>
 
+  <!-- Action Sheet para mostrar opciones como eliminar o editar publicaciones -->
   <ion-action-sheet trigger="open-action-sheet" header="Acciones" [buttons]="actionSheetButtons"></ion-action-sheet>
+  
+  <!-- Botón flotante para agregar una nueva publicación -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="openModal()">
       <ion-icon name="add"></ion-icon>

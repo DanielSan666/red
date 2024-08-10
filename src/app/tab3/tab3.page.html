@@ -1,3 +1,4 @@
+<!-- Cabecera del contenido con una barra de herramientas y un título "Perfil" -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Perfil</ion-title>
@@ -5,34 +6,54 @@
 </ion-header>
 
 <ion-content>
+  <!-- Tarjeta de perfil que se muestra si existe un usuario autenticado -->
   <ion-card *ngIf="currentUser">
+    <!-- Botón que abre un Action Sheet para opciones adicionales del usuario -->
     <ion-button (click)="presentActionSheet(currentUser.uid)">
       <ion-icon inert aria-hidden="true" name="ellipsis-vertical-outline"></ion-icon>
     </ion-button>
+    
+    <!-- Botón para cerrar sesión -->
     <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+
+    <!-- Encabezado de la tarjeta con el avatar y la información básica del usuario -->
     <ion-card-header>
+      <!-- Avatar del usuario, actualmente con una imagen por defecto -->
       <ion-avatar>
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
+
+      <!-- Título de la tarjeta, que muestra el nombre del usuario -->
       <ion-card-title>{{currentUser.nombre}}</ion-card-title>
+      
+      <!-- Subtítulo de la tarjeta que muestra el teléfono del usuario -->
       <ion-card-subtitle>+52{{currentUser.telefono}}</ion-card-subtitle>
     </ion-card-header>
 
+    <!-- Contenido de la tarjeta que muestra el correo electrónico del usuario -->
     <ion-card-content>
       {{currentUser.correo}}
     </ion-card-content>
   </ion-card>
 
+  <!-- Segunda tarjeta para opciones de actualización de información del perfil -->
   <ion-card *ngIf="currentUser">
+    <!-- Encabezado de la tarjeta con un título "Actualizar información" -->
     <ion-card-header>
       <ion-title>Actualizar información</ion-title>
     </ion-card-header>
+
+    <!-- Contenido de la tarjeta con botones para editar nombre y teléfono -->
     <ion-card-content>
+      <!-- Botón para editar el nombre del usuario -->
       <ion-button expand="full" (click)="editName(currentUser.uid)">Nombre</ion-button>
+      
+      <!-- Botón para editar el teléfono del usuario -->
       <ion-button expand="full" (click)="editPhone(currentUser.uid)">Teléfono</ion-button>
     </ion-card-content>
   </ion-card>
 
+  <!-- Tarjeta vacía, posiblemente reservada para futuras funcionalidades -->
   <ion-card>
     
   </ion-card>
