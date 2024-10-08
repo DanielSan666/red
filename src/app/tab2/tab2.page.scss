@@ -1,34 +1,38 @@
-ion-content {
-  --background: #ffffff; /* Fondo blanco para el contenido */
-  color: #000000; /* Color de texto negro */
+.add-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  font-size: 30px;
+  text-align: center;
 }
 
-ion-grid {
-  padding: 10px; /* Añadir algo de padding para separar el contenido del borde */
+.rancho-list {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
 }
 
-ion-row {
-  margin: 0; /* Eliminar márgenes predeterminados */
+.rancho-card {
+  margin-bottom: 16px;
+  position: relative; /* Para que el contenido se superponga sobre la imagen */
 }
 
-ion-col {
-  padding: 5px; /* Añadir padding interno a las columnas */
+.rancho-image {
+  width: 100%;
+  height: 200px; /* Ajusta la altura según sea necesario */
+  object-fit: cover; /* Para que la imagen se recorte y se ajuste correctamente */
+  border-radius: 8px; /* Bordes redondeados */
 }
 
-ion-img {
-  border-radius: 8px; /* Bordes redondeados para las imágenes */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para las imágenes */
-  width: 100%; /* Asegurarse de que la imagen ocupe todo el ancho de la columna */
-  height: auto; /* Mantener la proporción de la imagen */
-}
-
-ion-fab {
-  --background: #007bff; /* Fondo azul para el botón flotante */
-}
-
-ion-fab-button {
-  --background: #007bff; /* Fondo azul para el botón flotante */
-  --color: #ffffff; /* Color de texto blanco para el ícono */
-  border-radius: 50%; /* Bordes redondeados para el botón */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más fuerte para el botón flotante */
+ion-card-header {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  color: white; /* Color del texto */
 }

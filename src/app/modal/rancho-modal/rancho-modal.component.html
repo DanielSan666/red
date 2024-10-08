@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Añadir Rancho</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (submit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Nombre del Rancho</ion-label>
+      <ion-input type="text" [(ngModel)]="rancho.nombre" name="nombre" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Información del Rancho</ion-label>
+      <ion-textarea [(ngModel)]="rancho.informacion" name="informacion" required></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Subir Imagen</ion-label>
+      <input type="file" (change)="onFileSelected($event)" />
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Agregar Rancho</ion-button>
+  </form>
+</ion-content>

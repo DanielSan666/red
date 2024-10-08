@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { PhotoService } from '../services/fotos/photo.service'; // Importa el servicio de fotos
+import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { RanchoModalComponent } from '../modal/rancho-modal/rancho-modal.component';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab2', // Selector del componente, utilizado para identificar el componente en la plantilla
@@ -7,21 +10,29 @@ import { PhotoService } from '../services/fotos/photo.service'; // Importa el se
   styleUrls: ['tab2.page.scss'] // Ruta a la hoja de estilos CSS asociada a este componente
 })
 
-export class Tab2Page {
+export class Tab2Page implements OnInit {
+  ranchos: any[] = [];
 
-  // El constructor inyecta el servicio PhotoService para que esté disponible en esta clase
-  constructor(public photoService: PhotoService) {}
+  constructor(private modalController: ModalController, private firestore: AngularFirestore, private router: Router) {}
 
-  // ngOnInit es un ciclo de vida de Angular que se ejecuta cuando el componente se inicializa
-  async ngOnInit() {
-    // Carga las fotos guardadas llamando al método `loadSaved` del servicio PhotoService
-    await this.photoService.loadSaved();
-  }
-  
-  // Método para añadir una nueva foto a la galería
-  addPhotoToGallery() {
-    // Llama al método `addNewToGallery` del servicio PhotoService para agregar una nueva foto
-    this.photoService.addNewToGallery();
+  ngOnInit() {
+    this.loadRanchos();
   }
 
+  async loadRanchos() {
+    this.firestore.collection('ranchos').valueChanges().subscribe((data: any[]) => {
+      this.ranchos = data;
+    });
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: RanchoModalComponent,
+    });
+    return await modal.present();
+  }
+
+  goToRanchoDetail(nombre: string) {
+    this.router.navigate(['/rancho-detail'], { queryParams: { nombre: nombre } }); // Navegar a la página de detalles
+  }
 }

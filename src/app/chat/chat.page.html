@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let message of messages" lines="none">
+      <!-- Mensaje con color de fondo basado en el userId -->
+      <ion-label 
+        [ngStyle]="{ 
+          'background-color': getUserColor(message.userId), 
+          'border-radius': '10px', 
+          'padding': '10px', 
+          'color': 'white' 
+        }" 
+        class="message-bubble"
+      >
+        <!-- Nombre de usuario en negrita -->
+        <strong>{{ message.nombre }}</strong>
+        
+        <!-- Texto del mensaje -->
+        <p>{{ message.text }}</p>
+        
+        <!-- Marca de tiempo con tamaño más pequeño -->
+        <span class="message-timestamp" style="font-size: smaller;">{{ message.timestamp | date:'shortTime' }}</span>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <!-- Campo para escribir el mensaje -->
+  <ion-item lines="none">
+    <ion-input 
+      placeholder="Escribe tu mensaje..." 
+      [(ngModel)]="newMessageText" 
+      clearInput
+    ></ion-input>
+
+    <!-- Botón para enviar el mensaje -->
+    <ion-button (click)="sendMessage()" expand="block">Enviar</ion-button>
+  </ion-item>
+</ion-footer>

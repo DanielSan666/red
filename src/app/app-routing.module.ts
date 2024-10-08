@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard'; // Ajusta la ruta según tu estructura
+import { ChatPageModule } from './chat/chat.module';
 
 const routes: Routes = [
   {
@@ -15,7 +16,15 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
-  }
+  },
+  {
+    path: 'chatPage',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'rancho-detail',
+    loadChildren: () => import('./rancho-detail/rancho-detail.module').then( m => m.RanchoDetailPageModule)
+  },
 
 ];
 @NgModule({

@@ -16,8 +16,10 @@ import { ModalEditNombreComponent } from './modal-edit/modal-edit-nombre/modal-e
 import { ModalEditTelefonoComponent } from './modal-edit/modal-edit-telefono/modal-edit-telefono.component';
 import { ModalEditCorreoComponent } from './modal-edit/modal-edit-correo/modal-edit-correo.component';
 import { ModalEditPasComponent } from './modal-edit/modal-edit-pas/modal-edit-pas.component';
+import { RanchoModalComponent } from './modal/rancho-modal/rancho-modal.component';
+import { ModalExampleComponent } from './notification/notification.component';
 @NgModule({
-  declarations: [AppComponent, ModalComponentAddComponent,ModalComponentComponent, ModalEditNombreComponent,  ModalEditTelefonoComponent, ModalEditCorreoComponent,  ModalEditPasComponent],
+  declarations: [AppComponent,ModalExampleComponent ,RanchoModalComponent,ModalComponentAddComponent,ModalComponentComponent, ModalEditNombreComponent,  ModalEditTelefonoComponent, ModalEditCorreoComponent,  ModalEditPasComponent],
   imports: [FormsModule ,
     BrowserModule, 
     IonicModule.forRoot(), 

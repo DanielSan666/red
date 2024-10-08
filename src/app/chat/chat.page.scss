@@ -1,0 +1,31 @@
+ion-item {
+  --padding-start: 10px;
+}
+
+ion-footer {
+  padding: 10px;
+}
+
+ion-input {
+  flex: 1;
+  --padding-start: 10px;
+}
+.message-timestamp {
+  font-size: 0.7rem; /* Ajusta el tamaño del texto */
+  color: #888; /* Cambia el color si lo prefieres */
+}
+.message-bubble {
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 10px;
+  display: inline-block;
+  max-width: 80%; /* Limita el ancho de los mensajes */
+}
+
+.message-timestamp {
+  font-size: 0.7rem;
+  color: #888;
+  display: block;
+  text-align: right; /* Alinea el timestamp a la derecha */
+}

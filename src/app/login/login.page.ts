@@ -93,7 +93,6 @@ export class LoginPage implements OnInit {
         let errorMessage = error.message || error.getLocalizedMessage();
         this.showToast(errorMessage);
       }
-      console.error('Error al iniciar sesión:');
       await loader.dismiss(); // Ocultar el loading
     }
   }

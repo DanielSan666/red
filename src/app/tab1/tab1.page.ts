@@ -5,11 +5,11 @@ import { SocialService } from '../services/social/social.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ModalComponentAddComponent } from '../modal-component-add/modal-component-add.component';
 import { ModalComponentComponent } from '../modal-component/modal-component.component';
-import { ActionSheetController, ModalController } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { ActionSheetController, ModalController, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { DataService } from '../services/publicacion/data.service';
+import { Router } from '@angular/router';
+import { NotificationService } from '../services/notification/notification.service'; // Ensure to import the notification service
 
 @Component({
   selector: 'app-tab1',
@@ -17,206 +17,198 @@ import { DataService } from '../services/publicacion/data.service';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page {
-  comments: any[] = []; // Array para almacenar los comentarios en tiempo real
-  reactions: any[] = []; // Array para almacenar las reacciones en tiempo real
-  posts: any; // Variable para almacenar las publicaciones obtenidas de Firestore
-  currentUser: any; // Variable para almacenar el usuario autenticado actual
-  newComment: string = ''; // Cadena para almacenar un nuevo comentario
-  users: { [key: string]: any } = {}; // Objeto para almacenar datos de usuarios asociados a publicaciones
+  comments: any[] = [];
+  reactions: any[] = [];
+  posts: any;
+  currentUser: any;
+  newComment: string = '';
+  users: { [key: string]: any } = {};
+  notificationCount: number = 0; // Notification counter
 
-  // Configuración de los botones de la hoja de acción (Action Sheet)
   public actionSheetButtons = [
     {
       text: 'Eliminar',
       role: 'destructive',
-      data: {
-        action: 'delete', // Acción para eliminar una publicación
-      },
+      data: { action: 'delete' },
     },
     {
       text: 'Editar',
-      data: {
-        action: 'edit', // Acción para editar una publicación
-      },
+      data: { action: 'edit' },
     },
     {
       text: 'Cancelar',
       role: 'cancel',
-      data: {
-        action: 'cancel', // Acción para cancelar
-      },
+      data: { action: 'cancel' },
     },
   ];
 
   constructor(
-    private toastCtrl: ToastController, // Servicio para mostrar toasts
-    private loadingCtrl: LoadingController, // Servicio para mostrar loaders
-    private afStore: AngularFirestore, // Servicio para interactuar con Firestore
-    private actionSheetCtrl: ActionSheetController, // Servicio para mostrar hojas de acción
-    private modalCtrl: ModalController, // Servicio para mostrar modales
-    private dataService: DataService, // Servicio para interactuar con datos de publicaciones y usuarios
-    private afAuth: AngularFireAuth, // Servicio para manejar autenticación con Firebase
-    private social: SocialService, // Servicio para manejar interacciones sociales como comentarios y reacciones
-    private alertController: AlertController // Servicio para mostrar alertas
+    private notificationService: NotificationService, // Inject the notification service
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
+    private afStore: AngularFirestore,
+    private actionSheetCtrl: ActionSheetController,
+    private modalCtrl: ModalController,
+    private dataService: DataService,
+    private afAuth: AngularFireAuth,
+    private social: SocialService,
+    private alertController: AlertController,
+    private router: Router
   ) {
-    addIcons({ add }); // Agrega el ícono "add" a la aplicación
+    addIcons({ add });
+
+    // Listen for notifications
+    this.notificationService.currentNotification.subscribe((message: string | null) => {
+      if (message) {
+        this.openNotification(message); // Check if message is not null
+      }
+    });
   }
 
-  // Muestra una alerta indicando que una funcionalidad estará disponible próximamente
-  async openSoon() {
+  // Opens a notification alert
+  async openNotification(message: string) {
     const alert = await this.alertController.create({
-      header: 'Red-Social',
-      message: '!Proximamente!',
+      header: 'Notificación',
+      message: message,
       buttons: ['Aceptar'],
     });
     await alert.present();
   }
 
-  // Utiliza la API de Web Share para compartir contenido, si es compatible
+  // Uses the Web Share API to share content, if supported
   share() {
     if (navigator.share) {
-      navigator
-        .share({
-          title: 'Red-Social',
-          text: 'Mira lo que comparti en esta publicacion',
-          url: 'https://Red-Social.com',
-        })
-        .then(() => {
-          console.log('Shared successfully!');
-        })
-        .catch((error) => {
-          console.error('Error sharing:', error);
-        });
+      navigator.share({
+        title: 'Red-Social',
+        text: 'Mira lo que compartí en esta publicación',
+        url: 'https://Red-Social.com',
+      })
+      .then(() => console.log('Shared successfully!'))
+      .catch((error) => console.error('Error sharing:', error));
     } else {
       console.log('Sharing not supported');
     }
   }
 
-  // Método que se ejecuta antes de que la vista se muestre al usuario
+  // Runs before the view is displayed to the user
   ionViewWillEnter() {
-    this.getPosts(); // Carga las publicaciones desde Firestore
+    this.getPosts(); // Load posts from Firestore
   }
 
-  // Método que se ejecuta al inicializar el componente
+  // Initializes the component
   async ngOnInit() {
     this.afAuth.authState.subscribe((user) => {
-      this.currentUser = user; // Almacena el usuario autenticado actual
+      this.currentUser = user; // Store the authenticated user
     });
 
-    // Escucha cambios en tiempo real para los comentarios
+    // Listen for real-time changes to comments
     this.social.getComments(this.posts).subscribe((comments) => {
-      this.comments = comments; // Actualiza la lista de comentarios
+      this.comments = comments; // Update comment list
     });
 
-    // Escucha cambios en tiempo real para las reacciones
+    // Listen for real-time changes to reactions
     this.social.getReactions(this.posts).subscribe((reactions) => {
-      this.reactions = reactions; // Actualiza la lista de reacciones
+      this.reactions = reactions; // Update reaction list
     });
   }
 
-  // Agrega un comentario a la publicación actual
+  // Adds a comment to the current post
   addComment(comment: string) {
-    const userId = this.currentUser; // Obtiene el ID del usuario actual
-    this.social.addComment(this.posts, comment, userId); // Agrega el comentario usando el servicio SocialService
+    const userId = this.currentUser; // Get the current user's ID
+    this.social.addComment(this.posts, comment, userId); // Add the comment using the SocialService
   }
 
-  // Agrega una reacción a la publicación actual
+  // Adds a reaction to the current post
   addReaction() {
-    const userId = this.currentUser; // Obtiene el ID del usuario actual
-    this.social.addReaction(this.posts, userId); // Agrega la reacción usando el servicio SocialService
+    const userId = this.currentUser; // Get the current user's ID
+    this.social.addReaction(this.posts, userId); // Add the reaction using the SocialService
   }
 
-  // Carga los datos de los usuarios para las publicaciones dadas
+  // Loads user data for the given posts
   loadUsersForPosts(posts: any[]) {
-    const userIds = [...new Set(posts.map((post) => post.userId))]; // Obtiene los IDs únicos de los usuarios
+    const userIds = [...new Set(posts.map((post) => post.userId))]; // Get unique user IDs
     userIds.forEach((userId) => {
       this.dataService.getUserById(userId).subscribe((user) => {
-        this.users[userId] = user; // Almacena los datos del usuario
+        this.users[userId] = user; // Store user data
       });
     });
   }
 
-  // Obtiene las publicaciones desde Firestore y las carga en la variable `posts`
+  // Fetches posts from Firestore and loads into `posts`
   async getPosts() {
-    let loader = await this.loadingCtrl.create({
-      message: 'Espere por favor...', // Muestra un mensaje de espera
-    });
+    let loader = await this.loadingCtrl.create({ message: 'Espere por favor...' });
     await loader.present();
     try {
       this.afStore
-        .collection('posts') // Obtiene la colección de publicaciones
+        .collection('posts') // Fetch the posts collection
         .snapshotChanges()
         .subscribe((data: any[]) => {
           this.posts = data.map((e: any) => {
             const postData = e.payload.doc.data();
             return {
-              id: e.payload.doc.id, // ID de la publicación
-              titulo: postData.titulo, // Título de la publicación
-              contenido: postData.contenido, // Contenido de la publicación
-              detalles: postData.detalles, // Detalles de la publicación
-              imageUrl: postData.imageUrl, // URL de la imagen de la publicación
-              userId: postData.userId, // ID del usuario que creó la publicación
+              id: e.payload.doc.id, // Post ID
+              titulo: postData.titulo, // Post title
+              contenido: postData.contenido, // Post content
+              detalles: postData.detalles, // Post details
+              imageUrl: postData.imageUrl, // Post image URL
+              userId: postData.userId, // User ID who created the post
             };
           });
-          this.loadUsersForPosts(this.posts); // Carga los datos de los usuarios para las publicaciones
+          this.loadUsersForPosts(this.posts); // Load user data for posts
         });
 
-      await loader.dismiss(); // Cierra el loader
+      await loader.dismiss(); // Dismiss loader
     } catch (e: any) {
-      await loader.dismiss(); // Cierra el loader en caso de error
+      await loader.dismiss(); // Dismiss loader on error
       let errorMessage = e.message || e.getLocalizedMessage();
-      this.showToast(errorMessage); // Muestra un mensaje de error
+      this.showToast(errorMessage); // Show error message
     }
   }
 
-  // Elimina una publicación basada en su ID
+  // Deletes a post based on its ID
   async deletePost(id: string) {
-    let loader = await this.loadingCtrl.create({
-      message: 'Espere por favor...', // Muestra un mensaje de espera
-    });
+    let loader = await this.loadingCtrl.create({ message: 'Espere por favor...' });
     await loader.present();
     try {
-      await this.afStore.doc('posts/' + id).delete(); // Elimina la publicación en Firestore
-      await loader.dismiss(); // Cierra el loader
+      await this.afStore.doc('posts/' + id).delete(); // Delete the post in Firestore
+      await loader.dismiss(); // Dismiss loader
     } catch (e: any) {
-      await loader.dismiss(); // Cierra el loader en caso de error
+      await loader.dismiss(); // Dismiss loader on error
       let errorMessage = e.message || e.getLocalizedMessage();
-      this.showToast(errorMessage); // Muestra un mensaje de error
+      this.showToast(errorMessage); // Show error message
     }
   }
 
-  // Muestra un toast con el mensaje dado
+  // Shows a toast with the given message
   showToast(message: string) {
-    this.toastCtrl
-      .create({
-        message: message, // Mensaje a mostrar
-        duration: 5000, // Duración del toast
-      })
-      .then((toastData) => toastData.present());
+    this.toastCtrl.create({
+      message: message, // Message to display
+      duration: 5000, // Toast duration
+    }).then((toastData) => toastData.present());
   }
 
-  // Muestra una hoja de acción con opciones para la publicación
+  // Shows an action sheet with options for the post
   async presentActionSheet(id: string) {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Acciones', // Título de la hoja de acción
+      header: 'Acciones', // Action sheet title
       buttons: this.actionSheetButtons.map((button) => ({
         ...button,
         handler: () => {
-          this.handleAction(button.data.action, id); // Maneja la acción seleccionada
+          this.handleAction(button.data.action, id); // Handle selected action
         },
       })),
     });
     await actionSheet.present();
   }
 
-  // Maneja la acción seleccionada en la hoja de acción
+  // Handles the selected action in the action sheet
   async handleAction(action: string, id: string) {
     switch (action) {
       case 'delete':
-        this.deletePost(id); // Elimina la publicación
+        this.deletePost(id); // Delete the post
         break;
       case 'edit':
-        await this.openEditModal(id); // Abre un modal para editar la publicación
+        await this.openEditModal(id); // Open modal to edit the post
         break;
       case 'cancel':
         break;
@@ -225,34 +217,38 @@ export class Tab1Page {
     }
   }
 
-  // Verifica si el usuario actual es el propietario de una publicación
+  // Checks if the current user is the owner of a post
   isPostOwner(postId: string): boolean {
-    const post = this.posts.find((p: any) => p.id === postId); // Busca la publicación por su ID
-    return post && this.currentUser && post.userId === this.currentUser.uid; // Verifica si el usuario actual es el propietario
+    const post = this.posts.find((p: any) => p.id === postId); // Find the post by its ID
+    return post && this.currentUser && post.userId === this.currentUser.uid; // Check if the current user is the owner
   }
 
-  // Abre un modal para editar una publicación
+  // Opens a modal to edit a post
   async openEditModal(postId: string) {
     const modal = await this.modalCtrl.create({
-      component: ModalComponentComponent, // Componente del modal
-      componentProps: {
-        id: postId, // Pasa el ID de la publicación al modal
-      },
+      component: ModalComponentComponent, // Modal component
+      componentProps: { id: postId }, // Pass post ID to modal
     });
     return await modal.present();
   }
 
-  // Abre un modal para agregar una nueva publicación
+  // Opens the chat page
+  openChat() {
+    this.router.navigate(['/chatPage']);
+  }
+
+  // Opens a modal to add a new post
   async openModal() {
     const modal = await this.modalCtrl.create({
-      component: ModalComponentAddComponent, // Componente del modal
+      component: ModalComponentAddComponent, // Modal component
       componentProps: {},
     });
-    return await modal.present();
+
+    await modal.present();
 
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
-      // Maneja la confirmación de la acción en el modal
+      // Handle the confirmation action in the modal
     }
   }
 }
