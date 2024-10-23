@@ -235,6 +235,7 @@ export class Tab1Page {
   // Opens the chat page
   openChat() {
     this.router.navigate(['/chatPage']);
+    this.notificationCount = 0; // Reiniciar contador al abrir el chat
   }
 
   // Opens a modal to add a new post

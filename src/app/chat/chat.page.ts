@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Message } from '../models/message.model';
 import { ChatService } from '../services/chat/chat.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { UserService } from '../services/perfil/perfil.service';
 
 @Component({
   selector: 'app-chat',
@@ -11,14 +12,19 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 export class ChatPage implements OnInit {
   messages: Message[] = [];
   newMessageText = '';
+  currentUser: any;
+  mediaRecorder: any;
+  audioChunks: any[] = [];
 
   private colors: string[] = [
-    '#f28b82', '#fbbc04', '#34a853', '#4285f4', '#ff6d01', '#00bcd4', '#8e44ad', '#e84393'
+    '#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', 
+    '#BAE1FF', '#E0BBE4', '#FFCCF9', '#C9C9FF'
   ];
 
   constructor(
     private chatService: ChatService,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
@@ -32,32 +38,101 @@ export class ChatPage implements OnInit {
   }
 
   async sendMessage() {
+    if (this.newMessageText.trim() === '') {
+      console.log('El mensaje está vacío, no se puede enviar.');
+      return;
+    }
+
     const user = await this.afAuth.currentUser;
     if (user) {
       const uid = user.uid;
-      const userName = user.displayName || 'Desconocido';
 
-      const message: Message = {
-        text: this.newMessageText,
-        sender: userName,
-        timestamp: new Date().getTime(),
-        userId: uid,
-        nombre: userName
-      };
+      this.userService.getUser(uid).subscribe(userDoc => {
+        if (userDoc.payload.exists) {
+          this.currentUser = userDoc.payload.data();
+          this.currentUser.uid = uid;
 
-      this.chatService.sendMessage(message).then(() => {
-        this.newMessageText = '';
+          const message: Message = {
+            text: this.newMessageText,
+            sender: this.currentUser.nombre,
+            timestamp: new Date().getTime(),
+            userId: uid,
+            nombre: this.currentUser.nombre
+          };
+
+          this.chatService.sendMessage(message).then(() => {
+            this.newMessageText = '';
+          });
+        } else {
+          console.error("El documento del usuario no existe.");
+        }
       });
     }
   }
 
-  getFormattedTime(timestamp: number): string {
-    const date = new Date(timestamp);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  // Iniciar la grabación de voz
+  startRecording() {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+      this.mediaRecorder = new MediaRecorder(stream);
+      this.audioChunks = [];
+
+      this.mediaRecorder.ondataavailable = (event: { data: any; }) => {
+        this.audioChunks.push(event.data);
+      };
+
+      this.mediaRecorder.start();
+    }).catch(error => {
+      console.error("Error al acceder al micrófono: ", error);
+    });
+  }
+
+  // Detener la grabación y enviar el archivo de audio
+  stopRecording() {
+    if (this.mediaRecorder && this.mediaRecorder.state !== "inactive") {
+      this.mediaRecorder.stop();
+
+      this.mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+
+        // Aquí puedes subir el archivo de audio a tu servidor o Firebase Storage
+        this.uploadAudio(audioBlob);
+      };
+    }
+  }
+
+  // Subir el archivo de audio
+  uploadAudio(audioBlob: Blob) {
+    const user = this.currentUser;
+    const timestamp = new Date().getTime();
+
+    const message: Message = {
+      text: '[Audio]',
+      sender: user.nombre,
+      timestamp,
+      userId: user.uid,
+      nombre: user.nombre
+    };
+
+    // Agregar lógica para almacenar el audio en Firestore o tu backend
+    this.chatService.sendAudioMessage(message, audioBlob).then(() => {
+      console.log('Mensaje de voz enviado');
+    });
   }
 
   getUserColor(userId: string): string {
-    const index = parseInt(userId, 36) % this.colors.length;
+    const hash = this.hashString(userId);
+    const index = hash % this.colors.length;
     return this.colors[index];
+  }
+
+  hashString(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash);
   }
 }

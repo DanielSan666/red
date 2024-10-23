@@ -1,17 +1,15 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { map } from 'rxjs';
-import { Message } from 'src/app/models/message.model';
+import { Injectable } from "@angular/core";
+import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { map } from "rxjs";
+import { Message } from "src/app/models/message.model";
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class ChatService {
 
   constructor(private firestore: AngularFirestore) {}
 
-  // Obtener los mensajes en tiempo real
   getMessages() {
     return this.firestore.collection('messages', ref => ref.orderBy('timestamp'))
       .snapshotChanges().pipe(
@@ -25,8 +23,16 @@ export class ChatService {
       );
   }
 
-  // Enviar un nuevo mensaje
   sendMessage(message: Message) {
     return this.firestore.collection('messages').add(message);
+  }
+
+  // Lógica para enviar el archivo de audio
+  async sendAudioMessage(message: Message, audioBlob: Blob) {
+    const audioRef = await this.firestore.collection('audioMessages').add({
+      audioBlob, // Aquí puedes procesar el audioBlob para guardarlo
+      ...message
+    });
+    return audioRef;
   }
 }

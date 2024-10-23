@@ -1,22 +1,31 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+
 
 <ion-content [fullscreen]="true">
+  <div class="wave-background">
+    <img src="assets/rancho.jpeg" class="logo" alt="Logo">
+  </div>
+  
+  <div class="login-container">
+    <h1 class="titulo">Bienvenido de nuevo!</h1>
 
-  <div class="form-container">
-    <h1 class="titulo">Iniciar Sesion</h1>
-    <ion-item>
+    <!-- Campo de correo electrónico -->
+    <ion-item class="input-item">
       <ion-label position="floating">Correo Electrónico</ion-label>
       <ion-input type="email" required [(ngModel)]="user.correo"></ion-input>
     </ion-item>
-    <ion-item>
+
+    <!-- Campo de contraseña -->
+    <ion-item class="input-item">
       <ion-label position="floating">Contraseña</ion-label>
       <ion-input type="password" required [(ngModel)]="user.password"></ion-input>
     </ion-item>
-    <ion-button class="ion-padding" color="primary" (click)="login(user)">Acceder</ion-button>
-    <ion-button class="ion-padding" color="light" [routerLink]="['/register']">Registrarte</ion-button>
+
+    <!-- Botón de login -->
+    <ion-button expand="block" class="login-button" (click)="login(user)">Iniciar sesión</ion-button>
+
+    <!-- Texto de registro -->
+    <div class="register-text">
+      ¿No tienes una cuenta? <a [routerLink]="['/register']">Regístrate</a>
+    </div>
   </div>
 </ion-content>

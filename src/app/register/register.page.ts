@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
-import { LoadingController, NavController, ToastController } from '@ionic/angular';
+import { LoadingController, NavController, ToastController, ModalController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { TermsModalPage } from '../terms-modal/terms-modal.page';
 
 @Component({
   selector: 'app-register',
@@ -11,63 +12,76 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  // Objeto user inicializado como un User vacío
-  user: User = {} as User;
+  user: User = {} as User; // Objeto user inicializado como un User vacío
+  termsAccepted: boolean = false; // Estado para saber si los términos han sido aceptados
 
   constructor(
-    private toastCtrl: ToastController, // Controlador para mostrar mensajes tipo toast
-    private loadingCtrl: LoadingController, // Controlador para mostrar el loading
-    private afAuth: AngularFireAuth, // Servicio de autenticación de Firebase
-    private navCtrl: NavController, // Controlador para la navegación
-    private afStore: AngularFirestore, // Servicio de Firestore
-    private router: Router // Servicio de enrutamiento
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
+    private afAuth: AngularFireAuth,
+    private navCtrl: NavController,
+    private afStore: AngularFirestore,
+    private router: Router,
+    private modalCtrl: ModalController
   ) { }
 
-  // Método que se ejecuta al inicializar el componente
   ngOnInit() {}
 
-  // Navegar a la página de inicio de sesión
+  // Método para navegar a la página de inicio de sesión
   navigate() {
     this.router.navigate(['/login']);
   }
 
+  // Método para mostrar el modal de términos
+  async showTermsModal() {
+    const modal = await this.modalCtrl.create({
+      component: TermsModalPage
+    });
+    
+    modal.onDidDismiss().then((data) => {
+      if (data.data) {
+        this.termsAccepted = data.data.accepted; // Obtener el estado de aceptación
+      } else {
+        this.termsAccepted = false; // Resetear si se rechazó
+      }
+    });
+    
+    return await modal.present();
+  }
+
   // Función para registrar un nuevo usuario
-  async register(user: User) {
-    // Validación del formulario
+  async register() {
     if (this.formValidation()) {
-      // Mostrar un loader mientras se realiza el registro
+      if (!this.termsAccepted) {
+        this.showToast("Debes aceptar los términos y condiciones para registrarte.");
+        return;
+      }
+
       let loader = await this.loadingCtrl.create({
         message: "Espere un momento..."
       });
       await loader.present();
 
       try {
-        // Crear un nuevo usuario en Firebase Authentication
-        const userCredential = await this.afAuth.createUserWithEmailAndPassword(user.correo, user.password);
-
-        // Guardar los datos del usuario en la colección 'users' de Firestore
+        const userCredential = await this.afAuth.createUserWithEmailAndPassword(this.user.correo, this.user.password);
         await this.afStore.collection('users').doc(userCredential.user?.uid).set({
-          nombre: user.nombre,
-          telefono: user.telefono,
-          correo: user.correo
+          nombre: this.user.nombre,
+          telefono: this.user.telefono,
+          correo: this.user.correo
         });
 
-        // Navegar a la página principal después de un registro exitoso
         this.navCtrl.navigateRoot("tabs");
       } catch (error: any) {
-        // Manejar errores de registro
         let errorMessage = error.message || "Error al registrar";
         this.showToast(errorMessage);
       }
 
-      // Ocultar el loader
       await loader.dismiss();
     }
   }
 
-  // Validación del formulario de registro
+  // Validación del formulario
   formValidation() {
-    // Verificar que todos los campos necesarios estén completos
     if (!this.user.correo) {
       this.showToast("Ingrese un correo electrónico");
       return false;
@@ -77,7 +91,7 @@ export class RegisterPage implements OnInit {
       return false;
     }
     if (!this.user.nombre) {
-      this.showToast("Ingrese tu nombre");
+      this.showToast("Ingrese su nombre");
       return false;
     }
     if (!this.user.telefono) {
@@ -85,14 +99,14 @@ export class RegisterPage implements OnInit {
       return false;
     }
 
-    return true; // Retorna true si todos los campos están completos
+    return true;
   }
 
-  // Función para mostrar mensajes al usuario
+  // Mostrar mensaje de toast
   showToast(message: string) {
     this.toastCtrl.create({
-      message: message, // Mensaje a mostrar
-      duration: 4000 // Duración del mensaje en milisegundos
-    }).then(toastData => toastData.present()); // Presentar el toast
+      message: message,
+      duration: 4000
+    }).then(toastData => toastData.present());
   }
 }

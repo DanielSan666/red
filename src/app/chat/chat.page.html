@@ -39,7 +39,17 @@
       clearInput
     ></ion-input>
 
-    <!-- Botón para enviar el mensaje -->
-    <ion-button (click)="sendMessage()" expand="block">Enviar</ion-button>
+    <!-- Botón para enviar el mensaje o nota de voz -->
+    <ion-button 
+      (click)="sendMessage()" 
+      (mousedown)="startRecording()" 
+      (mouseup)="stopRecording()" 
+      (touchstart)="startRecording()" 
+      (touchend)="stopRecording()" 
+      expand="block"
+    >
+      Enviar
+    </ion-button>
   </ion-item>
 </ion-footer>
+

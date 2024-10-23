@@ -1,69 +1,102 @@
-:host {
-  display: block;
-  height: 100vh; /* Asegura que el host ocupe toda la altura del viewport */
+:root {
+  --ion-padding-bottom: 0px; /* Ajusta el padding inferior según sea necesario */
 }
 
+/* Estilo para el contenido */
 ion-content {
-  --background: #f0f0f0; /* Color de fondo claro para el contenido */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%; /* Usa el 100% de la altura del ion-content */
+  overflow: hidden; /* Desactivar el desplazamiento */
 }
 
-ion-header {
-  --background: #ffffff; /* Color de fondo blanco para el encabezado */
-  --color: #000000; /* Color de texto negro */
+/* Estilo para el contenedor de fondo */
+.wave-background {
+  background: linear-gradient(to bottom, #3a7bd5, #00d2ff);
+  height: 250px; /* Ajustar altura según sea necesario */
+  width: 100%; /* Asegurar que ocupe todo el ancho */
+  position: absolute; /* Permitir que se superponga al otro contenido */
+  top: 0; /* Posicionar en la parte superior de la vista */
+  left: 0; /* Alinear al borde izquierdo */
+  border-bottom-left-radius: 50% 30%;
+  border-bottom-right-radius: 50% 30%;
+  z-index: -1; /* Asegurar que permanezca detrás de otros elementos */
 }
 
-ion-toolbar {
-  --background: #ffffff; /* Color de fondo blanco para la barra de herramientas */
-  --color: #000000; /* Color de texto negro */
+/* Estilo para el logo */
+.logo {
+  position: absolute;
+  top: 40px; /* Ajustar la posición superior según sea necesario */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px; /* Ajustar el tamaño del logo */
+  height: auto;
 }
 
-.form-container {
+/* Estilo para el contenedor de login */
+.login-container {
+  margin-top: 40px; /* Ajustar margen superior para evitar desplazamiento */
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centra horizontalmente */
-  padding: 20px;
-  background: #ffffff; /* Fondo blanco para el contenedor del formulario */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  max-width: 320px; /* Hacer el formulario más pequeño */
-  margin: 40px auto 0; /* Añadir margen superior para separar del toolbar */
+  justify-content: center;
+  align-items: center;
 }
 
-ion-item {
-  --background: #f8f8f8; /* Fondo claro para los elementos del formulario */
-  --border-radius: 8px;
-  margin-bottom: 15px;
-  color: #000000;
-}
-
-ion-input {
-  --padding-start: 0;
-}
-
-ion-label {
-  color: #333; /* Gris oscuro para etiquetas */
-}
-
-ion-title {
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-}
-
-ion-button {
-  --background: #007bff; /* Color azul para botones */
-  --color: #ffffff; /* Color de texto blanco */
-  --border-radius: 25px; /* Bordes redondeados */
-  font-weight: bold;
-  margin-top: 10px; /* Añadir un margen superior entre botones */
-}
-
-ion-icon {
+/* Estilo para el título */
+.titulo {
   font-size: 24px;
-  margin-bottom: -19px;
-  margin-left: 5px;
+  font-weight: bold;
+  color: #4a4a4a;
+  margin-bottom: 20px; /* Espaciado inferior */
+  margin-top: 70px; /* Ajusta este valor para bajar el título */
+}
+
+/* Estilo para los items de entrada */
+.input-item {
+  --background: transparent;
+  --border-color: #cfcfcf;
+  --border-width: 1px;
+  --box-shadow: none;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.input-item ion-label {
+  color: #6a6a6a;
+}
+
+.input-item ion-input {
+  color: #000;
+}
+
+/* Estilo para el botón de login */
+.login-button {
+  --background: linear-gradient(to right, #3a7bd5, #00d2ff);
+  --border-radius: 25px;
+  --box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  width: 100%;
+  margin-top: 20px; /* Margen ajustado para espaciado */
+}
+
+/* Estilo para el texto de registro */
+.register-text {
+  color: #4a4a4a;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.register-text a {
+  color: #3a7bd5;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Estilo para los términos y condiciones */
+.terms-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.terms-text {
+  margin-left: 8px; /* Ajustar espacio entre checkbox y texto */
 }

@@ -6,12 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SocialService {
+  constructor(private firestore: AngularFirestore) { }
 
-  constructor(
-    private firestore: AngularFirestore
-  ) { }
-   // Método para agregar un comentario
-   addComment(postId: string, comment: string, userId: string) {
+  // Método para obtener las notificaciones del chat
+  getChatNotifications(uid: string): Observable<any[]> {
+    return this.firestore.collection('notifications', ref => ref.where('userId', '==', uid)).valueChanges();
+  }
+
+  // Método para agregar un comentario
+  addComment(postId: string, comment: string, userId: string) {
     const commentData = {
       comment,
       userId,
@@ -29,13 +32,13 @@ export class SocialService {
     return this.firestore.collection('posts').doc(postId).collection('reactions').add(reactionData);
   }
 
-    // Obtener comentarios en tiempo real
-    getComments(postId: string): Observable<any[]> {
-      return this.firestore.collection('posts').doc(postId).collection('comments', ref => ref.orderBy('timestamp')).valueChanges();
-    }
-  
-    // Obtener reacciones en tiempo real
-    getReactions(postId: string): Observable<any[]> {
-      return this.firestore.collection('posts').doc(postId).collection('reactions').valueChanges();
-    }
+  // Obtener comentarios en tiempo real
+  getComments(postId: string): Observable<any[]> {
+    return this.firestore.collection('posts').doc(postId).collection('comments', ref => ref.orderBy('timestamp')).valueChanges();
+  }
+
+  // Obtener reacciones en tiempo real
+  getReactions(postId: string): Observable<any[]> {
+    return this.firestore.collection('posts').doc(postId).collection('reactions').valueChanges();
+  }
 }
