@@ -36,3 +36,8 @@ ion-card-header {
   background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
   color: white; /* Color del texto */
 }
+.fab-button-large {
+  --width: 60px; /* Ajusta el ancho del botón */
+  --height: 60px; /* Ajusta la altura del botón */
+  font-size: 1.5em; /* Tamaño del ícono */
+}

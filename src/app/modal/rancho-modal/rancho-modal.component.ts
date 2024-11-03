@@ -4,6 +4,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ModalController } from '@ionic/angular';
 import { finalize } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { Rancho } from 'src/app/models/rancho.mmodel'; // Importa el modelo
 
 @Component({
   selector: 'app-rancho-modal',
@@ -12,7 +13,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 })
 
 export class RanchoModalComponent implements OnInit {
-  rancho = {
+  rancho: Rancho = { // Usa el modelo aquí
     nombre: '',
     informacion: '',
     imagenUrl: ''
@@ -23,7 +24,7 @@ export class RanchoModalComponent implements OnInit {
     private modalController: ModalController,
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
-    private notificationService: NotificationService // Inyecta el servicio
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {}
@@ -57,16 +58,18 @@ export class RanchoModalComponent implements OnInit {
       await this.firestore.collection('ranchos').add(this.rancho);
       this.modalController.dismiss();
 
-      // Enviar notificación al subir el rancho
       const userName = 'Usuario'; // Reemplaza esto con el nombre del usuario que sube el rancho
       this.notificationService.sendNotification(`${userName} ha subido un rancho.`);
 
-      // Limpiar el formulario
-      this.rancho = { nombre: '', informacion: '', imagenUrl: '' };
-      this.selectedFile = null;
+      this.resetForm(); // Llama a la función para limpiar el formulario
     } catch (error) {
       console.error('Error al agregar rancho:', error);
     }
+  }
+
+  resetForm() {
+    this.rancho = { nombre: '', informacion: '', imagenUrl: '' }; // Limpia el objeto rancho
+    this.selectedFile = null; // Limpia el archivo seleccionado
   }
 
   dismiss() {

@@ -5,15 +5,20 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-tab2', // Selector del componente, utilizado para identificar el componente en la plantilla
-  templateUrl: 'tab2.page.html', // Ruta a la plantilla HTML asociada a este componente
-  styleUrls: ['tab2.page.scss'] // Ruta a la hoja de estilos CSS asociada a este componente
+  selector: 'app-tab2',
+  templateUrl: 'tab2.page.html',
+  styleUrls: ['tab2.page.scss']
 })
 
 export class Tab2Page implements OnInit {
   ranchos: any[] = [];
+  notificationCount = 0;
 
-  constructor(private modalController: ModalController, private firestore: AngularFirestore, private router: Router) {}
+  constructor(
+    private modalController: ModalController,
+    private firestore: AngularFirestore,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadRanchos();
@@ -25,7 +30,7 @@ export class Tab2Page implements OnInit {
     });
   }
 
-  async openModal() {
+  async openAddRancho() {
     const modal = await this.modalController.create({
       component: RanchoModalComponent,
     });
@@ -33,6 +38,11 @@ export class Tab2Page implements OnInit {
   }
 
   goToRanchoDetail(nombre: string) {
-    this.router.navigate(['/rancho-detail'], { queryParams: { nombre: nombre } }); // Navegar a la página de detalles
+    this.router.navigate(['/rancho-detail'], { queryParams: { nombre: nombre } });
+  }
+
+  openChat() {
+    this.router.navigate(['/chatPage']);
+    this.notificationCount = 0; // Reiniciar contador al abrir el chat
   }
 }

@@ -1,23 +1,32 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title>Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content>
-    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button (click)="openModal()">
-        <ion-icon name="add"></ion-icon>
+  <ion-toolbar>
+    <ion-title>Tab 2</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Botón principal con opciones -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <!-- Opciones desplegables hacia arriba -->
+    <ion-fab-list side="top">
+      <ion-fab-button class="fab-button-large" (click)="openAddRancho()">
+        <ion-icon name="add-circle"></ion-icon>
       </ion-fab-button>
-    </ion-fab>
-    
-    <div class="rancho-list">
-      <ion-card *ngFor="let rancho of ranchos" class="rancho-card" (click)="goToRanchoDetail(rancho.nombre)">
-        <img [src]="rancho.imagenUrl" alt="{{ rancho.nombre }}" class="rancho-image" />
-        <ion-card-header>
-          <ion-card-title>{{ rancho.nombre }}</ion-card-title>
-        </ion-card-header>
-      </ion-card>
-    </div>
-  </ion-content>
-  
+      <ion-fab-button class="fab-button-large" (click)="openChat()">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <div class="rancho-list">
+    <ion-card *ngFor="let rancho of ranchos" class="rancho-card" (click)="goToRanchoDetail(rancho.nombre)">
+      <img [src]="rancho.imagenUrl" alt="{{ rancho.nombre }}" class="rancho-image" />
+      <ion-card-header>
+        <ion-card-title>{{ rancho.nombre }}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div>
+</ion-content>
