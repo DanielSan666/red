@@ -1,3 +1,4 @@
+/* Estilo para el encabezado */
 ion-header {
   --background: #1877f2; /* Azul Facebook para el fondo */
   --color: #000000; /* Color negro para el texto */
@@ -60,13 +61,13 @@ ion-card {
   box-sizing: border-box; /* Incluye el padding en el cálculo del ancho total */
 }
 
-/* Nueva clase para el encabezado del avatar y texto */
+/* Encabezado de avatar y texto */
 .avatar-header {
   display: flex;
   align-items: center; /* Centrar verticalmente el contenido */
   justify-content: space-between; /* Alinear el contenido en los extremos */
   padding: 10px; /* Espaciado interno del encabezado */
-  background: #f7f7f7; /* Fondo claro */
+  background: rgba(196, 118, 45, 0.5);
   width: 100%; /* Asegura que el encabezado ocupe el 100% del ancho */
   box-sizing: border-box; /* Incluye el padding en el cálculo del ancho total */
 }
@@ -77,8 +78,9 @@ ion-avatar {
 
 ion-avatar img {
   border-radius: 50%; /* Hacer el avatar circular */
-  width: 45px; /* Tamaño del avatar */
-  height: 45px; /* Tamaño del avatar */
+  width: 50px; /* Tamaño del avatar */
+  height: 50px; /* Tamaño del avatar */
+  border: 2px solid #6a82fb; 
 }
 
 .header-text {
@@ -90,21 +92,21 @@ ion-avatar img {
 }
 
 ion-card-title {
-  font-size: 14px; /* Tamaño de fuente para el título */
+  font-size: 16px; /* Tamaño de fuente para el título */
   font-weight: bold;
   color: #333; /* Color de texto oscuro */
   margin: 2px 0; /* Márgenes para separar título y subtítulos */
 }
 
 ion-card-subtitle {
-  font-size: 12px; /* Tamaño de fuente para el subtítulo */
+  font-size: 14px; /* Tamaño de fuente para el subtítulo */
   color: #666; /* Gris medio para el subtítulo */
 }
 
 ion-card-content {
-  font-size: 12px; /* Tamaño de fuente para el contenido */
+  font-size: 14px; /* Tamaño de fuente para el contenido */
   color: #333; /* Color de texto oscuro */
-  padding: 10px; /* Padding interno del contenido */
+  padding: 15px; /* Padding interno del contenido */
   width: 100%; /* Asegura que el contenido ocupe el 100% del ancho de la tarjeta */
   box-sizing: border-box; /* Incluye el padding en el cálculo del ancho total */
 }
@@ -112,27 +114,39 @@ ion-card-content {
 ion-button {
   --background: #1877f2; /* Azul Facebook */
   --color: #ffffff; /* Texto blanco */
-  font-size: 14px; /* Tamaño de fuente */
-  margin: 5px; /* Margen alrededor del botón */
-  border-radius: 4px; /* Bordes redondeados */
-  padding: 8px 16px; /* Padding interno para más espacio */
+  font-size: 16px; /* Tamaño de fuente */
+  margin: 8px; /* Margen alrededor del botón */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 10px 20px; /* Padding interno para más espacio */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
 }
 
 ion-button:active {
-  transform: translateY(0); /* Volver a la posición original al hacer clic */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra más intensa al hacer clic */
+  transform: translateY(1px); /* Ligera reducción al hacer clic */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más intensa al hacer clic */
 }
 
 ion-button ion-icon {
-  font-size: 18px; /* Tamaño del ícono dentro del botón */
-  margin-right: 4px; /* Espacio entre el ícono y el texto */
+  font-size: 20px; /* Tamaño del ícono dentro del botón */
+  margin-right: 6px; /* Espacio entre el ícono y el texto */
 }
 
+.notification-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+/* Estilos para los botones de reacción */
 .reactions {
   display: flex;
   justify-content: space-between; /* Espacio entre los íconos */
-  padding: 10px; /* Padding para el contenedor de reacciones */
+  padding: 12px; /* Padding para el contenedor de reacciones */
   background: #f7f7f7; /* Fondo claro para las reacciones */
   width: 100%; /* Asegura que el contenedor ocupe el 100% del ancho de la tarjeta */
   box-sizing: border-box; /* Incluye el padding en el cálculo del ancho total */
@@ -141,46 +155,35 @@ ion-button ion-icon {
 .reaction-button {
   --background: transparent; /* Fondo transparente para el botón de reacción */
   --color: #333; /* Color oscuro para los íconos de reacción */
-  font-size: 12px; /* Tamaño de ícono de reacción */
+  font-size: 14px; /* Tamaño de ícono de reacción */
   padding: 0; /* Sin padding extra */
-  margin-right: 8px; /* Separar íconos de reacción */
+  margin-right: 10px; /* Separar íconos de reacción */
   display: flex; /* Usar flexbox para alinear íconos y texto */
   align-items: center; /* Alinear verticalmente */
   transition: color 0.3s ease; /* Transición suave para el color */
 }
 
-.notification-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: red;
-  color: white;
-  border-radius: 10px;
-  padding: 2px 6px;
-  font-size: 12px;
-}
-
-
 .reaction-button ion-icon {
-  margin-right: 4px; /* Separar íconos de reacción */
+  margin-right: 6px; /* Separar íconos de reacción */
 }
 
+/* Media queries para pantallas grandes */
 @media (min-width: 768px) {
   ion-card {
-    max-width: 600px; /* Ancho máximo para pantallas más grandes */
+    max-width: 650px; /* Ancho máximo para pantallas más grandes */
   }
 
   ion-avatar img {
-    width: 50px; /* Tamaño del avatar para pantallas grandes */
-    height: 50px; /* Tamaño del avatar para pantallas grandes */
+    width: 60px; /* Tamaño del avatar para pantallas grandes */
+    height: 60px; /* Tamaño del avatar para pantallas grandes */
   }
 
   ion-card-title {
-    font-size: 16px; /* Tamaño de fuente más grande para pantallas grandes */
+    font-size: 18px; /* Tamaño de fuente más grande para pantallas grandes */
   }
 
   ion-card-subtitle {
-    font-size: 14px; /* Tamaño de fuente más grande para pantallas grandes */
+    font-size: 16px; /* Tamaño de fuente más grande para pantallas grandes */
   }
 
   ion-card-content {
@@ -188,12 +191,12 @@ ion-button ion-icon {
   }
 
   ion-button {
-    font-size: 16px; /* Tamaño de fuente más grande para pantallas grandes */
-    padding: 10px 20px; /* Más espacio en pantallas grandes */
+    font-size: 18px; /* Tamaño de fuente más grande para pantallas grandes */
+    padding: 12px 24px; /* Más espacio en pantallas grandes */
   }
 
   ion-button ion-icon {
-    font-size: 22px; /* Tamaño del ícono dentro del botón para pantallas grandes */
+    font-size: 24px; /* Tamaño del ícono dentro del botón para pantallas grandes */
   }
 
   .reactions {
@@ -201,13 +204,14 @@ ion-button ion-icon {
   }
 
   .reaction-button {
-    font-size: 14px; /* Tamaño de ícono de reacción para pantallas grandes */
+    font-size: 16px; /* Tamaño de ícono de reacción para pantallas grandes */
   }
 }
 
+/* Media queries para pantallas pequeñas */
 @media (max-width: 767px) {
   ion-card {
-    margin: 5px; /* Reducir el margen para pantallas pequeñas */
+    margin: 8px; /* Reducir el margen para pantallas pequeñas */
   }
 
   ion-card-title {
@@ -221,45 +225,4 @@ ion-button ion-icon {
   ion-card-content {
     font-size: 12px; /* Tamaño de fuente más pequeño para pantallas pequeñas */
   }
-
-  ion-button {
-    font-size: 12px; /* Tamaño de fuente más pequeño para pantallas pequeñas */
-    padding: 6px 12px; /* Menos espacio en pantallas pequeñas */
-  }
-
-  ion-button ion-icon {
-    font-size: 16px; /* Tamaño del ícono dentro del botón para pantallas pequeñas */
-  }
-
-  .reaction-button {
-    font-size: 12px; /* Tamaño de ícono de reacción para pantallas pequeñas */
-  }
-  /* Estilos para los íconos en el ion-toolbar */
-  ion-toolbar ion-buttons ion-button ion-icon[name="notifications-outline"],
-  ion-toolbar ion-buttons ion-button ion-icon[name="chatbubbles-outline"] {
-    font-size: 24px; /* Tamaño del ícono */
-    color: #1877f2; /* Color azul de Facebook para los íconos */
-  }
-
-  /* Ajuste de espacio alrededor de los botones para íconos */
-  ion-toolbar ion-buttons ion-button {
-    --padding-start: 0; /* Eliminar padding al inicio */
-    --padding-end: 0; /* Eliminar padding al final */
-  }
-
-  /* Añadir un pequeño margen entre los íconos */
-  ion-toolbar ion-buttons ion-button + ion-button {
-    margin-left: 10px; /* Espacio entre los íconos */
-  }
 }
-.badge {
-  background-color: red; /* Cambia al color que prefieras */
-  color: white;
-  border-radius: 10px;
-  padding: 0 5px;
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  font-size: 12px;
-}
-

@@ -35,6 +35,15 @@ export class ChatService {
     });
     return audioRef;
   }
+  // chat.service.ts
+updateMessage(message: Message) {
+  return this.firestore.collection('messages').doc(message.id).update({ text: message.text });
+}
+
+deleteMessage(message: Message) {
+  return this.firestore.collection('messages').doc(message.id).delete();
+}
+
 }
 
 

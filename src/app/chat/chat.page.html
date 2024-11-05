@@ -17,18 +17,25 @@
         }" 
         class="message-bubble"
       >
-        <!-- Nombre de usuario en negrita -->
-        <strong>{{ message.nombre }}</strong>
-        
-        <!-- Texto del mensaje -->
-        <p>{{ message.text }}</p>
-        
-        <!-- Marca de tiempo con tamaño más pequeño -->
-        <span class="message-timestamp" style="font-size: smaller;">{{ message.timestamp | date:'shortTime' }}</span>
+        <!-- Contenedor para flexbox -->
+        <div class="message-content">
+          <!-- Nombre de usuario en negrita -->
+          <strong>{{ message.nombre }}</strong>
+          
+          <!-- Texto del mensaje -->
+          <p class="message-text">{{ message.text }}</p>
+          
+          <!-- Marca de tiempo con tamaño más pequeño -->
+          <span class="message-timestamp" style="font-size: smaller;">{{ message.timestamp | date:'shortTime' }}</span>
+        </div>
+
+        <!-- Ícono de tres puntos verticales a la derecha -->
+        <ion-icon name="ellipsis-vertical-outline" class="message-icon"></ion-icon>
       </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
+
 
 <ion-footer>
   <!-- Campo para escribir el mensaje -->
@@ -52,4 +59,3 @@
     </ion-button>
   </ion-item>
 </ion-footer>
-

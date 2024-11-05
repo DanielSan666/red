@@ -4,36 +4,34 @@
       <ion-button (click)="cancel()">Cancelar</ion-button>
     </ion-buttons>
     <ion-title>Agregar una publicación</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="confirm()" [strong]="true">Crear</ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-item>
-    <ion-input label="Título" labelPlacement="stacked" type="text" placeholder="Título" [(ngModel)]="post.titulo">
-    </ion-input>
-  </ion-item>
+  <form>
+    <ion-item>
+      <ion-input label="Título" labelPlacement="stacked" type="text" placeholder="Título" [(ngModel)]="post.titulo"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-input label="Detalles" labelPlacement="stacked" type="text" placeholder="Detalles" [(ngModel)]="post.detalles">
-    </ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-input label="Detalles" labelPlacement="stacked" type="text" placeholder="Detalles" [(ngModel)]="post.detalles"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-input label="Contenido" labelPlacement="stacked" type="text" placeholder="Contenido"
-      [(ngModel)]="post.contenido">
-    </ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-input label="Contenido" labelPlacement="stacked" type="text" placeholder="Contenido" [(ngModel)]="post.contenido"></ion-input>
+    </ion-item>
 
-  <ion-item lines="none">
-    <ion-button fill="outline" (click)="fileInput.click()">
-      <ion-icon name="archive"></ion-icon>
-      Seleccionar archivo
-    </ion-button>
-    <input type="file" (change)="onFileSelected($event)" #fileInput hidden />
-  </ion-item>
+    <ion-item lines="none">
+      <ion-button fill="outline" (click)="fileInput.click()">
+        <ion-icon name="archive"></ion-icon>
+        Seleccionar archivo
+      </ion-button>
+      <input type="file" (change)="onFileSelected($event)" #fileInput hidden />
+    </ion-item>
 
-  <img *ngIf="imageUrl" [src]="imageUrl" alt="Vista previa de la imagen" width="100%">
+    <img *ngIf="imageUrl" [src]="imageUrl" alt="Vista previa de la imagen" width="100%">
+    
+    <!-- Botón se coloca aquí para estar al final del formulario -->
+    <ion-button type="submit" (click)="confirm()" expand="full">Crear</ion-button>
+  </form>
 </ion-content>

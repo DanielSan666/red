@@ -20,6 +20,9 @@
   position: relative; /* Para que el contenido se superponga sobre la imagen */
 }
 
+.rancho-card ion-card-title {
+  color: white; /* Para que el contenido se superponga sobre la imagen */
+}
 .rancho-image {
   width: 100%;
   height: 200px; /* Ajusta la altura según sea necesario */
@@ -37,7 +40,9 @@ ion-card-header {
   color: white; /* Color del texto */
 }
 .fab-button-large {
-  --width: 60px; /* Ajusta el ancho del botón */
-  --height: 60px; /* Ajusta la altura del botón */
-  font-size: 1.5em; /* Tamaño del ícono */
+  --width: 100px; /* Ancho del botón */
+  --height: 100px; /* Altura del botón */
+  --border-radius: 50%; /* Bordes redondeados */
+  font-size: 3em; /* Tamaño del ícono */
 }
+

@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs/operators';
-import { Rancho } from 'src/app/models/rancho.mmodel';
+import { Rancho } from 'src/app/models/rancho.model';
 
 @Injectable({
   providedIn: 'root'

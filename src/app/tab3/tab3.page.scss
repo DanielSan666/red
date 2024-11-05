@@ -6,9 +6,8 @@
 ion-content {
   --background: #f0f0f0; /* Color de fondo claro */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%; /* Usa el 100% de la altura del ion-content */
+  flex-direction: column; /* Alineación vertical de los elementos */
+  align-items: center; /* Centrar contenido horizontalmente */
   padding: 20px; /* Añadir padding para separar del borde */
   box-sizing: border-box; /* Incluye padding en el cálculo del ancho total */
 }
@@ -32,10 +31,17 @@ ion-card {
   margin: 20px auto; /* Separar del borde superior e inferior */
   padding: 20px; /* Padding interno para separar el contenido del borde */
   box-sizing: border-box; /* Incluye padding en el cálculo del ancho total */
+  transition: transform 0.2s; /* Transición suave al pasar el cursor */
+}
+
+ion-card:hover {
+  transform: translateY(-2px); /* Eleva la tarjeta al pasar el cursor */
 }
 
 ion-avatar {
   margin: 0 auto; /* Centrar el avatar horizontalmente */
+  border: 2px solid #3880ff; /* Bordes azules alrededor del avatar */
+  border-radius: 50%; /* Hacer el avatar circular */
 }
 
 ion-card-header {
@@ -43,13 +49,13 @@ ion-card-header {
 }
 
 ion-card-title {
-  font-size: 22px; /* Tamaño de fuente mayor para el título */
+  font-size: 24px; /* Tamaño de fuente mayor para el título */
   font-weight: bold;
   color: #333; /* Color de texto oscuro */
 }
 
 ion-card-subtitle {
-  font-size: 16px;
+  font-size: 18px;
   color: #666; /* Gris medio para subtítulo */
 }
 
@@ -57,24 +63,31 @@ ion-card-content {
   color: #333; /* Color de texto oscuro */
   margin-top: 10px;
   text-align: center;
+  font-size: 16px; /* Aumentar el tamaño de fuente para mejorar la legibilidad */
 }
 
 ion-button {
-  --background: #1877f2; /* Azul de Facebook para el botón */
+  --background: #3880ff; /* Color azul para los botones */
   --color: #ffffff; /* Color de texto blanco */
-  --border-radius: 50px; /* Bordes redondeados completamente circulares */
+  --border-radius: 25px; /* Bordes redondeados */
   font-weight: bold;
   margin-top: 12px; /* Añadir margen superior entre botones */
   --height: 50px; /* Altura del botón */
   --padding-start: 20px; /* Padding horizontal para botones */
   --padding-end: 20px; /* Padding horizontal para botones */
   --font-size: 16px; /* Tamaño de fuente para los botones */
+  transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves para el botón */
+}
+
+ion-button:hover {
+  --background: #3171e0; /* Color más oscuro al pasar el cursor sobre el botón */
+  transform: translateY(-1px); /* Elevar ligeramente el botón al pasar el cursor */
 }
 
 ion-button.secondary {
   --background: #f0f2f5; /* Fondo claro para botones secundarios */
-  --color: #1877f2; /* Color de texto azul Facebook */
-  --border-radius: 50px; /* Bordes redondeados completamente circulares */
+  --color: #1877f2; /* Color de texto azul */
+  --border-radius: 25px; /* Bordes redondeados */
   --height: 45px; /* Altura del botón secundario */
   --padding-start: 18px; /* Padding horizontal reducido */
   --padding-end: 18px; /* Padding horizontal reducido */
@@ -90,11 +103,11 @@ ion-button.secondary {
   }
 
   ion-card-title {
-    font-size: 18px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+    font-size: 20px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
   }
 
   ion-card-subtitle {
-    font-size: 14px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+    font-size: 16px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
   }
 
   ion-card-content {
@@ -118,11 +131,11 @@ ion-button.secondary {
   }
 
   ion-card-title {
-    font-size: 20px; /* Tamaño de fuente mayor en pantallas medianas */
+    font-size: 22px; /* Tamaño de fuente mayor en pantallas medianas */
   }
 
   ion-card-subtitle {
-    font-size: 15px; /* Tamaño de fuente mayor en pantallas medianas */
+    font-size: 17px; /* Tamaño de fuente mayor en pantallas medianas */
   }
 
   ion-card-content {
@@ -146,11 +159,11 @@ ion-button.secondary {
   }
 
   ion-card-title {
-    font-size: 22px; /* Tamaño de fuente grande en pantallas grandes */
+    font-size: 24px; /* Tamaño de fuente grande en pantallas grandes */
   }
 
   ion-card-subtitle {
-    font-size: 16px; /* Tamaño de fuente grande en pantallas grandes */
+    font-size: 18px; /* Tamaño de fuente grande en pantallas grandes */
   }
 
   ion-card-content {

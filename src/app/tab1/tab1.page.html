@@ -9,10 +9,6 @@
         <ion-icon name="notifications-outline"></ion-icon>
         <ion-badge *ngIf="notificationCount > 0" color="danger">{{ notificationCount }}</ion-badge>
       </ion-button>
-      <ion-button (click)="openChat()">
-        <ion-icon name="chatbubbles-outline"></ion-icon>
-        <ion-badge *ngIf="notificationCount > 0" color="danger">{{ notificationCount }}</ion-badge> <!-- Ensure notification count displays -->
-      </ion-button>
     </ion-buttons>
     
   </ion-toolbar>

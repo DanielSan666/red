@@ -15,13 +15,32 @@ ion-input {
   color: #888; /* Cambia el color si lo prefieres */
 }
 .message-bubble {
+  position: relative;
+  display: flex;  /* Usar flexbox para alinear los elementos */
+  justify-content: space-between;  /* Espacio entre el contenido y el ícono */
+  align-items: center;  /* Centrar verticalmente */
+  max-width: 80%;  /* Ajusta el máximo ancho del mensaje */
   padding: 10px;
-  border-radius: 10px;
   color: white;
-  margin-bottom: 10px;
-  display: inline-block;
-  max-width: 80%; /* Limita el ancho de los mensajes */
+  border-radius: 10px;
 }
+
+.message-content {
+  flex: 1;  /* Permite que el contenido ocupe el espacio disponible */
+  margin-right: 10px;  /* Espacio entre el contenido y el ícono */
+}
+
+.message-icon {
+  font-size: 20px;  /* Tamaño del ícono */
+  color: rgb(230, 42, 42);  /* Color del ícono */
+}
+
+.message-text {
+  white-space: nowrap;  /* Evita que el texto se divida en varias líneas */
+  overflow: hidden;
+  text-overflow: ellipsis;  /* Muestra los tres puntos si el texto es demasiado largo */
+}
+
 
 .message-timestamp {
   font-size: 0.7rem;

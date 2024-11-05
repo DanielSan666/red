@@ -1,0 +1,67 @@
+ion-header {
+    --background: #3880ff; /* Cambia el color del encabezado */
+    color: white;
+  }
+  
+  ion-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  ion-toolbar {
+    --background: #3880ff; /* Fondo azul del toolbar */
+    --color: white; /* Color de texto en el toolbar */
+  }
+  
+  ion-content {
+    --padding-start: 20px;
+    --padding-end: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Espacio entre los elementos del formulario */
+    padding: 20px;
+    background-color: #f7f7f7; /* Fondo gris claro para el formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  ion-item {
+    --background: #fff; /* Fondo blanco para cada campo */
+    border-radius: 8px; /* Bordes redondeados */
+    margin-bottom: 8px;
+  }
+  
+  ion-label {
+    font-size: 1.1rem;
+    color: #333; /* Color del texto de las etiquetas */
+  }
+  
+  ion-input,
+  ion-textarea {
+    --color: #333; /* Color del texto en los campos de entrada */
+    font-size: 1rem;
+    padding: 8px;
+  }
+  
+  input[type="file"] {
+    font-size: 1rem;
+    color: #666; /* Color del texto en el campo de archivo */
+  }
+  
+  ion-button[type="submit"] {
+    margin-top: 20px;
+    --background: #3880ff; /* Fondo del botón */
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 8px;
+  }
+  
+  ion-button[type="submit"]:hover {
+    --background: #3171e0; /* Color al pasar el cursor sobre el botón */
+  }
+  

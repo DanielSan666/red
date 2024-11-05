@@ -20,10 +20,17 @@
     </ion-item>
 
     <ion-item>
+      <ion-label position="floating">PSG del Rancho</ion-label>
+      <ion-textarea type="text" [(ngModel)]="rancho.psg" name="psg" required></ion-textarea>
+    </ion-item>
+
+    <!-- Sección de subir imagen -->
+    <ion-item>
       <ion-label>Subir Imagen</ion-label>
       <input type="file" (change)="onFileSelected($event)" />
     </ion-item>
 
+    <!-- Botón de agregar rancho debajo del campo de subir imagen -->
     <ion-button expand="full" type="submit">Agregar Rancho</ion-button>
   </form>
 </ion-content>

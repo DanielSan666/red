@@ -1,218 +1,66 @@
 ion-header {
-  --background: #ffffff;
-  --color: #1877f2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  box-sizing: border-box;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-ion-toolbar {
-  --background: #ffffff;
-  --color: #000000;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
+  --background: #3880ff; /* Cambia el color del encabezado */
+  color: white;
 }
 
 ion-title {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 0;
-  color: #1877f2;
-  text-align: center;
-  flex: 1;
+  color: white;
+}
+
+ion-toolbar {
+  --background: #3880ff; /* Fondo azul del toolbar */
+  --color: white; /* Color de texto en el toolbar */
 }
 
 ion-content {
-  --background: #ffffff;
+  --padding-start: 20px;
+  --padding-end: 20px;
+}
+
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 0;
-  margin: 0;
+  gap: 16px; /* Espacio entre los elementos del formulario */
+  padding: 20px;
+  background-color: #f7f7f7; /* Fondo gris claro para el formulario */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
-.cards-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding-top: 15px;
+ion-item {
+  --background: #fff; /* Fondo blanco para cada campo */
+  border-radius: 8px; /* Bordes redondeados */
+  margin-bottom: 8px;
 }
 
-ion-card {
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 10px 0;
-  overflow: hidden;
-  width: 100%;
-  max-width: 600px;
-  box-sizing: border-box;
-  transition: transform 0.2s, box-shadow 0.2s;
+ion-label {
+  font-size: 1.1rem;
+  color: #333; /* Color del texto de las etiquetas */
 }
 
-ion-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+ion-input,
+ion-textarea {
+  --color: #333; /* Color del texto en los campos de entrada */
+  font-size: 1rem;
+  padding: 8px;
 }
 
-.avatar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  background: #ffffff;
-  width: 100%;
-  box-sizing: border-box;
+input[type="file"] {
+  font-size: 1rem;
+  color: #666; /* Color del texto en el campo de archivo */
 }
 
-ion-avatar {
-  margin-right: 15px;
-}
-
-ion-avatar img {
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-}
-
-.header-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-grow: 1;
-  margin-right: 10px;
-}
-
-ion-card-title {
-  font-size: 14px;
+ion-button[type="submit"] {
+  margin-top: 20px;
+  --background: #3880ff; /* Fondo del botón */
+  color: white;
+  font-size: 1.2rem;
   font-weight: bold;
-  color: #333;
-  margin: 2px 0;
+  border-radius: 8px;
 }
 
-ion-card-subtitle {
-  font-size: 12px;
-  color: #666;
-}
-
-ion-card-content {
-  font-size: 12px;
-  color: #333;
-  padding: 10px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-ion-button {
-  --background: transparent;
-  --color: #1877f2;
-  font-size: 12px;
-  margin: 0;
-}
-
-ion-button ion-icon {
-  font-size: 18px;
-}
-
-.reactions {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  background: #ffffff;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.reaction-button {
-  --background: transparent;
-  --color: #333;
-  font-size: 12px;
-  padding: 0;
-  margin-right: 8px;
-}
-
-.reaction-button ion-icon {
-  margin-right: 4px;
-}
-
-@media (min-width: 768px) {
-  ion-card {
-    max-width: 600px;
-  }
-
-  ion-avatar img {
-    width: 50px;
-    height: 50px;
-  }
-
-  ion-card-title {
-    font-size: 16px;
-  }
-
-  ion-card-subtitle {
-    font-size: 14px;
-  }
-
-  ion-card-content {
-    font-size: 14px;
-  }
-
-  ion-button {
-    font-size: 14px;
-  }
-
-  ion-button ion-icon {
-    font-size: 22px;
-  }
-
-  .reactions {
-    justify-content: space-between;
-  }
-
-  .reaction-button {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 767px) {
-  ion-card {
-    margin: 5px;
-  }
-
-  ion-card-title {
-    font-size: 14px;
-  }
-
-  ion-card-subtitle {
-    font-size: 12px;
-  }
-
-  ion-card-content {
-    font-size: 12px;
-  }
-
-  ion-button {
-    font-size: 12px;
-  }
-
-  ion-button ion-icon {
-    font-size: 20px;
-  }
-
-  .reactions {
-    padding: 8px;
-  }
-
-  .reaction-button {
-    font-size: 12px;
-  }
+ion-button[type="submit"]:hover {
+  --background: #3171e0; /* Color al pasar el cursor sobre el botón */
 }

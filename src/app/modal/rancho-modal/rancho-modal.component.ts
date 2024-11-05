@@ -4,7 +4,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ModalController } from '@ionic/angular';
 import { finalize } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { Rancho } from 'src/app/models/rancho.mmodel'; // Importa el modelo
+import { Rancho } from 'src/app/models/rancho.model'; // Importa el modelo
 
 @Component({
   selector: 'app-rancho-modal',
@@ -16,6 +16,7 @@ export class RanchoModalComponent implements OnInit {
   rancho: Rancho = { // Usa el modelo aquí
     nombre: '',
     informacion: '',
+    psg: '',
     imagenUrl: ''
   };
   selectedFile: File | null = null;
@@ -68,7 +69,7 @@ export class RanchoModalComponent implements OnInit {
   }
 
   resetForm() {
-    this.rancho = { nombre: '', informacion: '', imagenUrl: '' }; // Limpia el objeto rancho
+    this.rancho = { nombre: '', informacion: '', psg: '', imagenUrl: '' }; // Limpia el objeto rancho
     this.selectedFile = null; // Limpia el archivo seleccionado
   }
 
